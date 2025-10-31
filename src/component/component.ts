@@ -98,14 +98,19 @@ export function connectToStore<T, S extends Record<string, any>>(
   options: ComponentOptions<T>,
   store: ReturnType<typeof createStore<S>>
 ): Component<T> {
+  let internalState = store.getState();
+  
   const component = createComponent({
     ...options,
-    state: store.getState(),
+    state: internalState,
+    template: (props) => {
+      return options.template ? options.template(props, internalState) : createElement('div', {}, 'Empty Component');
+    },
   });
 
   // Subscribe to store changes
   const unsubscribe = store.subscribe((state) => {
-    (component as any).currentState = state;
+    internalState = state;
     component.update();
   });
 

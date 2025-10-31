@@ -61,7 +61,7 @@ export function createStore<T extends Record<string, any>>(initialState: T) {
  * Creates a computed value that automatically updates when dependencies change
  * @param compute - Function to compute the value
  * @param dependencies - Array of stores or values to watch
- * @returns An object with the computed value and subscribe method
+ * @returns An object with the computed value, subscribe method, and cleanup function
  */
 export function computed<T, D extends any[]>(
   compute: (...deps: D) => T,
@@ -69,6 +69,7 @@ export function computed<T, D extends any[]>(
 ): {
   get: () => T;
   subscribe: (listener: (value: T) => void) => Unsubscribe;
+  dispose: () => void;
 } {
   let value: T;
   const listeners = new Set<(value: T) => void>();
@@ -100,6 +101,10 @@ export function computed<T, D extends any[]>(
       return () => {
         listeners.delete(listener);
       };
+    },
+    dispose: () => {
+      unsubscribers.forEach((unsub) => unsub());
+      listeners.clear();
     },
   };
 }
