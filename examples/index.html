@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forge Framework - Tree Shaking Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        input {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 300px;
+        }
+        .state-display {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        #log {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            min-height: 100px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔥 Forge Framework Demo</h1>
+    <p>This example demonstrates tree shaking - only the imported functions are included in the bundle.</p>
+
+    <div class="container">
+        <h2>Debounce Example</h2>
+        <input type="text" id="debounce-input" placeholder="Type here (500ms debounce)...">
+        <div id="debounce-output"></div>
+    </div>
+
+    <div class="container">
+        <h2>Throttle Example</h2>
+        <button id="throttle-button">Click rapidly (throttled to 1s)</button>
+        <div id="throttle-output">Clicks: 0</div>
+    </div>
+
+    <div class="container">
+        <h2>State Management Example</h2>
+        <button id="increment">Increment</button>
+        <button id="decrement">Decrement</button>
+        <button id="reset">Reset</button>
+        <div class="state-display">
+            <strong>Count:</strong> <span id="count-display">0</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>DOM Utilities Example</h2>
+        <button id="add-item">Add Item</button>
+        <button id="clear-items">Clear Items</button>
+        <div id="items-list"></div>
+    </div>
+
+    <div class="container">
+        <h2>Event Log</h2>
+        <div id="log"></div>
+    </div>
+
+    <script type="module">
+        // This demonstrates tree shaking - only imported functions are included
+        import { debounce, throttle, createStore, createElement, select, selectAll } from '../dist/forge.esm.js';
+
+        const log = (message) => {
+            const logEl = select('#log');
+            const time = new Date().toLocaleTimeString();
+            logEl.innerHTML += `[${time}] ${message}<br>`;
+            logEl.scrollTop = logEl.scrollHeight;
+        };
+
+        // Debounce example
+        const debouncedSearch = debounce((value) => {
+            select('#debounce-output').textContent = `Searched: "${value}"`;
+            log(`Debounced search executed: ${value}`);
+        }, 500);
+
+        select('#debounce-input').addEventListener('input', (e) => {
+            debouncedSearch(e.target.value);
+        });
+
+        // Throttle example
+        let throttleClickCount = 0;
+        const throttledClick = throttle(() => {
+            throttleClickCount++;
+            select('#throttle-output').textContent = `Clicks: ${throttleClickCount}`;
+            log(`Throttled click executed (click ${throttleClickCount})`);
+        }, 1000);
+
+        select('#throttle-button').addEventListener('click', throttledClick);
+
+        // State management example
+        const counterStore = createStore({ count: 0 });
+
+        counterStore.subscribe((state) => {
+            select('#count-display').textContent = state.count;
+            log(`State updated: count = ${state.count}`);
+        });
+
+        select('#increment').addEventListener('click', () => {
+            counterStore.setState((state) => ({ count: state.count + 1 }));
+        });
+
+        select('#decrement').addEventListener('click', () => {
+            counterStore.setState((state) => ({ count: state.count - 1 }));
+        });
+
+        select('#reset').addEventListener('click', () => {
+            counterStore.reset();
+        });
+
+        // DOM utilities example
+        let itemCount = 0;
+        select('#add-item').addEventListener('click', () => {
+            itemCount++;
+            const item = createElement('div', 
+                { 
+                    className: 'item',
+                    style: { 
+                        padding: '10px', 
+                        margin: '5px 0',
+                        backgroundColor: '#e9ecef',
+                        borderRadius: '4px'
+                    }
+                }, 
+                `Item ${itemCount}`
+            );
+            select('#items-list').appendChild(item);
+            log(`Added item ${itemCount}`);
+        });
+
+        select('#clear-items').addEventListener('click', () => {
+            const itemsList = select('#items-list');
+            itemsList.innerHTML = '';
+            itemCount = 0;
+            log('Cleared all items');
+        });
+
+        log('Application initialized');
+    </script>
+</body>
+</html>
