@@ -234,6 +234,75 @@ const isActive = hasClass(element, 'active');
 - `ready(callback)` - Execute when DOM is ready
 - `animate(element, keyframes, duration)` - Animate elements
 
+### Component System (`forge-framework/component`)
+
+#### `createComponent(options)`
+Creates a reactive component with lifecycle hooks.
+
+```javascript
+import { createComponent, createElement } from 'forge-framework';
+
+const button = createComponent({
+  props: { label: 'Click me', count: 0 },
+  template: (props) => {
+    return createElement('button', {
+      onClick: () => {
+        props.count++;
+        button.update({ count: props.count });
+      }
+    }, `${props.label} (${props.count})`);
+  },
+  mounted: (element) => console.log('Component mounted'),
+  updated: (element) => console.log('Component updated'),
+  unmounted: (element) => console.log('Component unmounted'),
+});
+
+button.mount('#app');
+```
+
+#### `connectToStore(options, store)`
+Connects a component to a store for automatic updates.
+
+```javascript
+import { createComponent, connectToStore, createStore } from 'forge-framework';
+
+const store = createStore({ count: 0 });
+
+const counter = connectToStore({
+  template: (props, state) => {
+    return createElement('div', {},
+      createElement('h1', {}, `Count: ${state.count}`),
+      createElement('button', {
+        onClick: () => store.setState(s => ({ count: s.count + 1 }))
+      }, 'Increment')
+    );
+  }
+}, store);
+
+counter.mount('#app');
+```
+
+#### `createList(options)`
+Creates a list component for rendering arrays.
+
+```javascript
+import { createList, createElement } from 'forge-framework';
+
+const userList = createList({
+  items: [
+    { id: 1, name: 'John' },
+    { id: 2, name: 'Jane' }
+  ],
+  renderItem: (user) => {
+    return createElement('div', { className: 'user-card' }, user.name);
+  },
+  containerTag: 'ul',
+  containerAttrs: { className: 'user-list' }
+});
+
+userList.mount('#users');
+```
+
 ## 🌲 Tree Shaking Example
 
 Thanks to ES modules and proper configuration, only the code you use will be included in your bundle:
@@ -247,17 +316,19 @@ import { debounce, createStore, select } from 'forge-framework';
 
 ### Bundle Size Comparison
 
-- **Full import**: ~15KB minified
-- **Only utils**: ~3KB minified
-- **Only state**: ~2KB minified
-- **Only DOM**: ~4KB minified
+- **Full import**: ~5.6KB minified
+- **Only utils**: ~1.6KB minified
+- **Only state**: ~1.3KB minified
+- **Only DOM**: ~1.9KB minified
+- **Only component**: ~1.4KB minified
 - **Specific functions**: <1KB minified
 
 ## 📖 Examples
 
 Check the `examples/` directory for complete examples:
 
-- `index.html` - Interactive demo of all features
+- `index.html` - Interactive demo of utilities, state management, and DOM manipulation
+- `component-example.html` - Demonstrates the component system with reactive updates
 - `tree-shaking-example.ts` - TypeScript example showing selective imports
 
 To run the example:

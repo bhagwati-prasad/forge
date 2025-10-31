@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forge Framework - Component Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .card h3 {
+            margin-top: 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        input {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border: 1px solid #e9ecef;
+        }
+        .todo-item.completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔥 Forge Framework - Component System</h1>
+    <p>Demonstrating reactive components with state management.</p>
+
+    <div class="container">
+        <h2>Counter Component</h2>
+        <div id="counter-app"></div>
+    </div>
+
+    <div class="container">
+        <h2>Todo List Component</h2>
+        <div id="todo-app"></div>
+    </div>
+
+    <div class="container">
+        <h2>User Card List</h2>
+        <div id="users-app"></div>
+    </div>
+
+    <script type="module">
+        import { 
+            createComponent, 
+            connectToStore, 
+            createList,
+            createStore, 
+            createElement 
+        } from '../dist/forge.esm.js';
+
+        // Counter Component
+        const counterStore = createStore({ count: 0 });
+
+        const counterComponent = connectToStore({
+            template: (props, state) => {
+                const container = createElement('div', { className: 'card' });
+                
+                const display = createElement('h3', {}, `Count: ${state.count}`);
+                
+                const incBtn = createElement('button', {
+                    onClick: () => counterStore.setState(s => ({ count: s.count + 1 }))
+                }, 'Increment');
+                
+                const decBtn = createElement('button', {
+                    onClick: () => counterStore.setState(s => ({ count: s.count - 1 }))
+                }, 'Decrement');
+                
+                const resetBtn = createElement('button', {
+                    onClick: () => counterStore.reset()
+                }, 'Reset');
+                
+                container.appendChild(display);
+                container.appendChild(incBtn);
+                container.appendChild(decBtn);
+                container.appendChild(resetBtn);
+                
+                return container;
+            },
+        }, counterStore);
+
+        counterComponent.mount('#counter-app');
+
+        // Todo List Component
+        const todoStore = createStore({ 
+            todos: [], 
+            input: '' 
+        });
+
+        const todoComponent = connectToStore({
+            template: (props, state) => {
+                const container = createElement('div', {});
+                
+                const inputBox = createElement('input', {
+                    type: 'text',
+                    placeholder: 'Enter todo...',
+                    value: state.input,
+                    onInput: (e) => {
+                        todoStore.setState({ input: e.target.value });
+                    },
+                    onKeypress: (e) => {
+                        if (e.key === 'Enter' && state.input.trim()) {
+                            todoStore.setState(s => ({
+                                todos: [...s.todos, { id: Date.now(), text: s.input, completed: false }],
+                                input: ''
+                            }));
+                        }
+                    }
+                });
+                
+                const addBtn = createElement('button', {
+                    onClick: () => {
+                        if (state.input.trim()) {
+                            todoStore.setState(s => ({
+                                todos: [...s.todos, { id: Date.now(), text: s.input, completed: false }],
+                                input: ''
+                            }));
+                        }
+                    }
+                }, 'Add Todo');
+                
+                container.appendChild(inputBox);
+                container.appendChild(addBtn);
+                
+                const list = createElement('div', {});
+                state.todos.forEach(todo => {
+                    const item = createElement('div', { 
+                        className: `todo-item ${todo.completed ? 'completed' : ''}` 
+                    });
+                    
+                    const text = createElement('span', {
+                        onClick: () => {
+                            todoStore.setState(s => ({
+                                todos: s.todos.map(t => 
+                                    t.id === todo.id ? { ...t, completed: !t.completed } : t
+                                )
+                            }));
+                        },
+                        style: { cursor: 'pointer', flex: 1 }
+                    }, todo.text);
+                    
+                    const deleteBtn = createElement('button', {
+                        onClick: () => {
+                            todoStore.setState(s => ({
+                                todos: s.todos.filter(t => t.id !== todo.id)
+                            }));
+                        },
+                        style: { backgroundColor: '#dc3545', padding: '5px 10px', fontSize: '12px' }
+                    }, 'Delete');
+                    
+                    item.appendChild(text);
+                    item.appendChild(deleteBtn);
+                    list.appendChild(item);
+                });
+                
+                container.appendChild(list);
+                return container;
+            },
+        }, todoStore);
+
+        todoComponent.mount('#todo-app');
+
+        // User Card List using createList
+        const users = [
+            { id: 1, name: 'John Doe', email: 'john@example.com' },
+            { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
+            { id: 3, name: 'Bob Johnson', email: 'bob@example.com' },
+        ];
+
+        const userList = createList({
+            items: users,
+            renderItem: (user) => {
+                const card = createElement('div', { className: 'card' });
+                
+                const name = createElement('h3', {}, user.name);
+                const email = createElement('p', {}, user.email);
+                
+                card.appendChild(name);
+                card.appendChild(email);
+                
+                return card;
+            }
+        });
+
+        userList.mount('#users-app');
+    </script>
+</body>
+</html>

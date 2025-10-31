@@ -23,6 +23,10 @@
     "./dom": {
       "import": "./dist/dom.esm.js",
       "require": "./dist/dom.cjs.js"
+    },
+    "./component": {
+      "import": "./dist/component.esm.js",
+      "require": "./dist/component.cjs.js"
     }
   },
   "sideEffects": false,

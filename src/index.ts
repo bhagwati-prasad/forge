@@ -7,5 +7,8 @@ export * from './state';
 // Export DOM utilities
 export * from './dom';
 
+// Export component system
+export * from './component';
+
 // Version
 export const VERSION = '1.0.0';

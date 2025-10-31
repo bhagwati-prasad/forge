@@ -41,4 +41,5 @@ export default [
   createConfig('src/utils/index.ts', 'utils'),
   createConfig('src/state/index.ts', 'state'),
   createConfig('src/dom/index.ts', 'dom'),
+  createConfig('src/component/index.ts', 'component'),
 ];
