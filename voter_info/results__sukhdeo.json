@@ -1,0 +1,20 @@
+[
+    {
+        "file": "voter_info_data/2002/mandawali/east_vinod_nagar/56.pdf",
+        "matches": [
+            "2:SUKHDEO SINGH RAWAT"
+        ]
+    },
+    {
+        "file": "voter_info_data/2002/mandawali/ito_jhuggi_shakarpur/101.pdf",
+        "matches": [
+            "23:SUKHDEO KUMAR MAHTO"
+        ]
+    },
+    {
+        "file": "voter_info_data/2002/patparganj/gharoli/119.pdf",
+        "matches": [
+            "8:SUKHDEO RAM"
+        ]
+    }
+]

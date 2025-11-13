@@ -1,0 +1,28 @@
+[
+    {
+        "file": "voter_info_data/2002/mandawali/ito_jhuggi_shakarpur/100.pdf",
+        "matches": [
+            "12:SUKH DEO YADAV",
+            "26:SUKH DEO DAS",
+            "26:SUKH DEO DAS"
+        ]
+    },
+    {
+        "file": "voter_info_data/2002/mandawali/mandawali/36.pdf",
+        "matches": [
+            "19:SUKH DEO PANDIT"
+        ]
+    },
+    {
+        "file": "voter_info_data/2002/mandawali/shakarpur/79.pdf",
+        "matches": [
+            "18:SUKH DEO PRASAD"
+        ]
+    },
+    {
+        "file": "voter_info_data/2002/patparganj/gharoli/119.pdf",
+        "matches": [
+            "8:SUKH DEO RAM"
+        ]
+    }
+]
