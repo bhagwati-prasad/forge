@@ -56,11 +56,38 @@ function getPatparganj2002Data() {
     );
 }
 
-let srchTerm = 'lalita';
-let results = srch.searchInPDFs(srchTerm, './voter_info_data/2002')
-results.then(async res => {
-    await writeFile(`results__${getSnakeCaseName(srchTerm)}.json`, JSON.stringify(res, null, 4));
-    console.log(`Results written to results__${getSnakeCaseName(srchTerm)}.json`);
-}).catch(err => {
-    console.error(err);
-});
+function getVishvasNagar2002Data() {
+    let vishvasnagar2002 = data2002.vishwasNagar.payload;
+    vishvasnagar2002 = vishvasnagar2002.map(item => {
+        item.folderName = getSnakeCaseName(item.partName);
+        item.url = `https://www.eci.gov.in/sir/f4/U05/data/OLDSIRROLL/U05/${item.acNumber}/U05_${item.acNumber}_${item.partNumber}.pdf`;
+        return item;
+    });
+
+    mkdir('./voter_info_data/2002/vishvas_nagar', { recursive: true }, (err) => {
+        if (err) throw err;
+    });
+
+    dw.downloadPDFsWithWait(
+        vishvasnagar2002.map(item => ({
+            url: item.url,
+            path: `./voter_info_data/2002/vishvas_nagar/${item.folderName}/${item.partNumber}.pdf`
+        }))
+    );
+    
+}
+
+
+
+function search() {
+    let srchTerm = 'lalita indoria';
+    let results = srch.searchInPDFs(srchTerm, './voter_info_data/2002')
+    results.then(async res => {
+        await writeFile(`results__${getSnakeCaseName(srchTerm)}.json`, JSON.stringify(res, null, 4));
+        console.log(`Results written to results__${getSnakeCaseName(srchTerm)}.json`);
+    }).catch(err => {
+        console.error(err);
+    });
+}
+
+search();
