@@ -7,12 +7,28 @@ These are direct siblings to the Two Pointer technique, used mostly for linear d
 *   **Sliding Window:**
     *   **Concept:** Instead of re-calculating a subarray from scratch, you "slide" a window (range) over the array by adding one element to the right and removing one from the left.
     *   **Best for:** Finding the longest/shortest substring, subarray, or sum value.
-    *   **Example:** "Find the maximum sum of a subarray of size K."
+    *   **Example:** ```
+    Find the maximum / minimum sum of a subarray of size K (mixed positive and -ve int).
+    Find subarray with maximum / minimum sum, there must be at least one element (mixed positive and -ve int).
+    Find contiguous subarray with a given sum.
+    Smallest substring which contains all characters of string.
+    Largest substring without repeating characters.
+    Distinct elements in every window of size K.
+    ```
+
+
+*   **Two Pointers:**
+    *   **Concept:** Using two pointers.
+    *   **Example:**```
+    Check if a string is palindrome.
+    ```
 
 *   **Fast & Slow Pointers (Tortoise and Hare):**
     *   **Concept:** Using two pointers that move at different speeds (usually 1 step vs 2 steps).
     *   **Best for:** Detecting cycles in a Linked List or Array, or finding the middle of a Linked List.
-    *   **Example:** "Determine if a Linked List contains a cycle."
+    *   **Example:** ```
+    Determine if a Linked List contains a cycle.
+    ```
 
 *   **Prefix Sum:**
     *   **Concept:** Pre-calculating the sum of elements up to index `i` and storing it. This allows you to calculate the sum of any range `(i, j)` in O(1) time.
