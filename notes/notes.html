@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneNote - Dev Edition v3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            height: 100vh;
+            background: #f5f5f5;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background: #2b2b2b;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: #1a1a1a;
+            border-bottom: 1px solid #3a3a3a;
+        }
+
+        .sidebar-header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .storage-toggle {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .storage-toggle button {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #555;
+            background: #3a3a3a;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
+        .storage-toggle button.active {
+            background: #0078d4;
+            border-color: #0078d4;
+        }
+
+        .notebook-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .notebook-item {
+            padding: 10px;
+            margin-bottom: 5px;
+            background: #3a3a3a;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notebook-item:hover {
+            background: #4a4a4a;
+        }
+
+        .notebook-item.active {
+            background: #0078d4;
+        }
+
+        .notebook-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .notebook-actions button {
+            padding: 2px 6px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
+        .notebook-actions button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .add-notebook {
+            padding: 15px;
+            border-top: 1px solid #3a3a3a;
+        }
+
+        .add-notebook button {
+            width: 100%;
+            padding: 10px;
+            background: #0078d4;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .add-notebook button:hover {
+            background: #005a9e;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .toolbar {
+            padding: 15px 20px;
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .toolbar button {
+            padding: 8px 15px;
+            background: #0078d4;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .toolbar button:hover {
+            filter: brightness(0.9);
+        }
+
+        .toolbar input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .notes-area {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .notes-list {
+            width: 200px;
+            background: #fff;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+        }
+
+        .note-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+
+        .note-item:hover {
+            background: #f9f9f9;
+        }
+
+        .note-item.active {
+            background: #e3f2fd;
+        }
+
+        .note-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .note-preview {
+            font-size: 12px;
+            color: #666;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Editor Styles */
+        .editor-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            position: relative;
+        }
+
+        .editor-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .editor-header input {
+            width: 100%;
+            font-size: 24px;
+            font-weight: 600;
+            border: none;
+            outline: none;
+            padding: 5px 0;
+        }
+
+        .editor-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Standard Textarea */
+        .editor-content textarea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: none;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* CODE EDITOR STYLES */
+        .code-editor-wrapper {
+            display: flex;
+            height: 100%;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            background-color: #1e1e1e; /* VS Code Dark */
+            color: #d4d4d4;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .line-numbers {
+            width: 40px;
+            background-color: #1e1e1e;
+            color: #858585;
+            text-align: right;
+            padding: 10px 5px;
+            font-size: 14px;
+            line-height: 1.5;
+            user-select: none;
+            border-right: 1px solid #333;
+            overflow: hidden;
+        }
+
+        .code-textarea {
+            flex: 1;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            border: none;
+            outline: none;
+            padding: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: none;
+            white-space: pre;
+            overflow-y: scroll;
+            tab-size: 4;
+            font-family: inherit;
+        }
+        
+        /* FLOATING TOOLBAR */
+        .floating-toolbar {
+            position: absolute;
+            top: 100px;
+            right: 40px;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            z-index: 500;
+            border: 1px solid #ddd;
+            overflow: hidden;
+            display: none;
+            width: 150px;
+        }
+
+        .floating-toolbar.visible {
+            display: flex;
+        }
+
+        .drag-handle {
+            background: #f0f0f0;
+            padding: 5px;
+            cursor: move;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            color: #888;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+
+        .drag-handle:hover {
+            background: #e0e0e0;
+            color: #555;
+        }
+
+        .tool-btn {
+            padding: 10px 15px;
+            background: #fff;
+            border: none;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            text-align: left;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .tool-btn:last-child {
+            border-bottom: none;
+        }
+
+        .tool-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .tool-btn.active {
+            background: #e3f2fd;
+            color: #0078d4;
+            font-weight: 600;
+            border-left: 3px solid #0078d4;
+        }
+
+        .icon {
+            font-family: monospace;
+            font-weight: bold;
+            width: 20px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        /* Modal Styles */
+        .empty-state {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #999;
+            font-size: 18px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            min-width: 400px;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .modal-actions button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #0078d4;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #005a9e;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        /* Search Replace Specifics */
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>OneNote</h1>
+            <div class="storage-toggle">
+                <button id="localStorageBtn" class="active">Local</button>
+                <button id="sessionStorageBtn">Session</button>
+            </div>
+        </div>
+        <div class="notebook-list" id="notebookList"></div>
+        <div class="add-notebook">
+            <button id="addNotebookBtn">+ New Notebook</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="toolbar">
+            <button id="addNoteBtn">+ New Note</button>
+            <button id="deleteNoteBtn">Delete Note</button>
+            <button id="exportBtn">Export</button>
+            <button id="importBtn">Import</button>
+            <input type="text" id="searchInput" placeholder="Search notes...">
+        </div>
+        <div class="notes-area">
+            <div class="notes-list" id="notesList"></div>
+            <div class="editor-area" id="editorArea">
+                <div class="empty-state">Select a note or create a new one</div>
+            </div>
+            
+            <!-- Draggable Floating Toolbar -->
+            <div id="floatingToolbar" class="floating-toolbar">
+                <div class="drag-handle" id="toolbarHeader">:::</div>
+                <button class="tool-btn" id="toolCodeMode">
+                    <span class="icon">&lt;/&gt;</span> Code Mode
+                </button>
+                <button class="tool-btn" id="toolSort">
+                    <span class="icon">AZ</span> Sort Lines
+                </button>
+                <button class="tool-btn" id="toolReplace">
+                    <span class="icon">🔍</span> Find/Replace
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notebook Modal -->
+    <div class="modal" id="notebookModal">
+        <div class="modal-content">
+            <h2>New Notebook</h2>
+            <input type="text" id="notebookNameInput" placeholder="Enter notebook name">
+            <div class="modal-actions">
+                <button class="btn-secondary" id="cancelNotebookBtn">Cancel</button>
+                <button class="btn-primary" id="createNotebookBtn">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Find Replace Modal -->
+    <div class="modal" id="replaceModal">
+        <div class="modal-content">
+            <h2>Find & Replace</h2>
+            <div class="input-group">
+                <label>Find:</label>
+                <input type="text" id="findInput" placeholder="Text to find...">
+            </div>
+            <div class="input-group">
+                <label>Replace with:</label>
+                <input type="text" id="replaceInput" placeholder="Replacement text...">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" id="cancelReplaceBtn">Cancel</button>
+                <button class="btn-primary" id="confirmReplaceBtn">Replace All</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Storage Driver Module
+        const StorageDriver = (function() {
+            let currentDriver = 'localStorage';
+
+            const drivers = {
+                localStorage: {
+                    save: function(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch (e) { console.error(e); return false; } },
+                    load: function(key) { try { const data = localStorage.getItem(key); return data ? JSON.parse(data) : null; } catch (e) { console.error(e); return null; } },
+                    remove: function(key) { try { localStorage.removeItem(key); return true; } catch (e) { console.error(e); return false; } },
+                    clear: function() { try { localStorage.clear(); return true; } catch (e) { console.error(e); return false; } }
+                },
+                sessionStorage: {
+                    save: function(key, value) { try { sessionStorage.setItem(key, JSON.stringify(value)); return true; } catch (e) { console.error(e); return false; } },
+                    load: function(key) { try { const data = sessionStorage.getItem(key); return data ? JSON.parse(data) : null; } catch (e) { console.error(e); return null; } },
+                    remove: function(key) { try { sessionStorage.removeItem(key); return true; } catch (e) { console.error(e); return false; } },
+                    clear: function() { try { sessionStorage.clear(); return true; } catch (e) { console.error(e); return false; } }
+                }
+            };
+
+            return {
+                setDriver: function(driver) { if (drivers[driver]) { currentDriver = driver; return true; } return false; },
+                getDriver: function() { return currentDriver; },
+                save: function(key, value) { return drivers[currentDriver].save(key, value); },
+                load: function(key) { return drivers[currentDriver].load(key); },
+                remove: function(key) { return drivers[currentDriver].remove(key); },
+                clear: function() { return drivers[currentDriver].clear(); }
+            };
+        })();
+
+        // NoteBook Core
+        const NoteBook = (function() {
+            const STORAGE_KEY = 'onenote_data';
+            let data = { notebooks: [], currentNotebookId: null, currentNoteId: null };
+
+            function generateId() { return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9); }
+            function saveData() { return StorageDriver.save(STORAGE_KEY, data); }
+            function loadData() { const loaded = StorageDriver.load(STORAGE_KEY); if (loaded) { data = loaded; } return data; }
+            function findNotebook(id) { return data.notebooks.find(nb => nb.id === id); }
+            function findNote(nbId, nId) { const nb = findNotebook(nbId); if (!nb) return null; return nb.notes.find(n => n.id === nId); }
+
+            return {
+                init: function() { loadData(); if (data.notebooks.length === 0) { this.createNotebook('My First Notebook'); } return data; },
+                createNotebook: function(name) { const nb = { id: generateId(), name: name || 'Untitled', createdAt: new Date().toISOString(), notes: [] }; data.notebooks.push(nb); saveData(); return nb; },
+                getNotebooks: function() { return data.notebooks; },
+                getNotebook: function(id) { return findNotebook(id); },
+                updateNotebook: function(id, updates) { const nb = findNotebook(id); if (!nb) return null; Object.assign(nb, updates); saveData(); return nb; },
+                deleteNotebook: function(id) { const idx = data.notebooks.findIndex(nb => nb.id === id); if (idx === -1) return false; data.notebooks.splice(idx, 1); if(data.currentNotebookId === id) { data.currentNotebookId = data.notebooks[0] ? data.notebooks[0].id : null; data.currentNoteId = null; } saveData(); return true; },
+                
+                createNote: function(nbId, title, content) { 
+                    const nb = findNotebook(nbId); 
+                    if (!nb) return null; 
+                    const note = { 
+                        id: generateId(), 
+                        title: title || 'Untitled', 
+                        content: content || '', 
+                        isCodeMode: false, 
+                        createdAt: new Date().toISOString(), 
+                        updatedAt: new Date().toISOString() 
+                    }; 
+                    nb.notes.push(note); 
+                    saveData(); 
+                    return note; 
+                },
+                getNotes: function(nbId) { const nb = findNotebook(nbId); return nb ? nb.notes : []; },
+                getNote: function(nbId, nId) { return findNote(nbId, nId); },
+                
+                updateNote: function(nbId, nId, updates) { 
+                    const note = findNote(nbId, nId); 
+                    if (!note) return null; 
+                    Object.assign(note, updates, { updatedAt: new Date().toISOString() }); 
+                    saveData(); 
+                    return note; 
+                },
+                deleteNote: function(nbId, nId) { const nb = findNotebook(nbId); if (!nb) return false; const idx = nb.notes.findIndex(n => n.id === nId); if (idx === -1) return false; nb.notes.splice(idx, 1); if(data.currentNoteId === nId) data.currentNoteId = null; saveData(); return true; },
+                setCurrentNotebook: function(id) { if (!findNotebook(id)) return false; data.currentNotebookId = id; data.currentNoteId = null; saveData(); return true; },
+                getCurrentNotebook: function() { return data.currentNotebookId; },
+                setCurrentNote: function(id) { data.currentNoteId = id; saveData(); return true; },
+                getCurrentNote: function() { return data.currentNoteId; },
+                searchNotes: function(query) { 
+                    const results = []; const lower = query.toLowerCase();
+                    data.notebooks.forEach(nb => nb.notes.forEach(note => {
+                        if (note.title.toLowerCase().includes(lower) || note.content.toLowerCase().includes(lower)) {
+                            results.push({ notebookId: nb.id, notebookName: nb.name, note: note });
+                        }
+                    }));
+                    return results;
+                },
+                exportData: function() { return JSON.stringify(data, null, 2); },
+                importData: function(json) { try { const imp = JSON.parse(json); if (imp.notebooks) { data = imp; saveData(); return true; } return false; } catch (e) { return false; } }
+            };
+        })();
+
+        // --- Draggable UI Module ---
+        const DraggableUI = (function() {
+            return {
+                init: function(dragElId, handleElId) {
+                    const elmnt = document.getElementById(dragElId);
+                    const handle = document.getElementById(handleElId);
+                    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+                    if (handle) {
+                        handle.onmousedown = dragMouseDown;
+                    } else {
+                        elmnt.onmousedown = dragMouseDown;
+                    }
+
+                    function dragMouseDown(e) {
+                        e.preventDefault();
+                        pos3 = e.clientX;
+                        pos4 = e.clientY;
+                        document.onmouseup = closeDragElement;
+                        document.onmousemove = elementDrag;
+                    }
+
+                    function elementDrag(e) {
+                        e.preventDefault();
+                        pos1 = pos3 - e.clientX;
+                        pos2 = pos4 - e.clientY;
+                        pos3 = e.clientX;
+                        pos4 = e.clientY;
+                        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                        elmnt.style.right = 'auto';
+                    }
+
+                    function closeDragElement() {
+                        document.onmouseup = null;
+                        document.onmousemove = null;
+                    }
+                }
+            };
+        })();
+
+        // --- Code Editor Module ---
+        const CodeEditor = (function() {
+            function getLineNumbers(content) {
+                if(!content) return '1';
+                const lines = content.split('\n').length;
+                return Array(lines).fill(0).map((_, i) => i + 1).join('\n');
+            }
+
+            return {
+                render: function(container, content, onInputCallback) {
+                    container.innerHTML = `
+                        <div class="code-editor-wrapper">
+                            <div class="line-numbers" id="codeLineNumbers"></div>
+                            <textarea class="code-textarea" id="codeTextArea" spellcheck="false">${content}</textarea>
+                        </div>
+                    `;
+
+                    const textarea = document.getElementById('codeTextArea');
+                    const lineNumbers = document.getElementById('codeLineNumbers');
+
+                    lineNumbers.innerText = getLineNumbers(textarea.value);
+
+                    textarea.addEventListener('scroll', function() {
+                        lineNumbers.scrollTop = textarea.scrollTop;
+                    });
+
+                    textarea.addEventListener('input', function() {
+                        lineNumbers.innerText = getLineNumbers(textarea.value);
+                        onInputCallback(textarea.value);
+                    });
+
+                    textarea.addEventListener('keydown', function(e) {
+                        if (e.key === 'Tab') {
+                            e.preventDefault();
+                            const start = this.selectionStart;
+                            const end = this.selectionEnd;
+                            this.value = this.value.substring(0, start) + "    " + this.value.substring(end);
+                            this.selectionStart = this.selectionEnd = start + 4;
+                            const event = new Event('input');
+                            this.dispatchEvent(event);
+                        }
+                    });
+                }
+            };
+        })();
+
+        // Note processor
+        const NoteProcessor = (function() {
+            function sortSubsection() {
+                const currentNotebookId = NoteBook.getCurrentNotebook();
+                const currentNoteId = NoteBook.getCurrentNote();
+                if (!currentNotebookId || !currentNoteId) return;
+
+                const note = NoteBook.getNote(currentNotebookId, currentNoteId);
+                if (!note.content) return;
+
+                const delimiter = '----';
+                const sections = note.content.split(delimiter);
+                
+                const sortedSections = sections.map(section => {
+                    return section.trim().split('\n').filter(line => line.trim() !== '').sort((a, b) => a.localeCompare(b)).join('\n');
+                });
+
+                const sortedContent = sortedSections.join(`\n${delimiter}\n`);
+                
+                NoteBook.updateNote(currentNotebookId, currentNoteId, { content: sortedContent });
+                
+                return true;
+            }
+
+            return {
+                sortSubsection
+            }
+        })();
+
+        // Note meta info processor
+        const NoteMetaProcessor = (function() {
+
+
+        })();
+
+        // UI Controller
+        window.addEventListener('load', function() {
+            // DOM Elements
+            const notebookList = document.getElementById('notebookList');
+            const notesList = document.getElementById('notesList');
+            const editorArea = document.getElementById('editorArea');
+            const addNotebookBtn = document.getElementById('addNotebookBtn');
+            const addNoteBtn = document.getElementById('addNoteBtn');
+            const deleteNoteBtn = document.getElementById('deleteNoteBtn');
+            
+            // Floating Toolbar Elements
+            const floatingToolbar = document.getElementById('floatingToolbar');
+            const toolCodeMode = document.getElementById('toolCodeMode');
+            const toolSort = document.getElementById('toolSort');
+            const toolReplace = document.getElementById('toolReplace');
+            
+            // Search Replace Modal Elements
+            const replaceModal = document.getElementById('replaceModal');
+            const findInput = document.getElementById('findInput');
+            const replaceInput = document.getElementById('replaceInput');
+            const confirmReplaceBtn = document.getElementById('confirmReplaceBtn');
+            const cancelReplaceBtn = document.getElementById('cancelReplaceBtn');
+
+            const exportBtn = document.getElementById('exportBtn');
+            const importBtn = document.getElementById('importBtn');
+            const searchInput = document.getElementById('searchInput');
+            const notebookModal = document.getElementById('notebookModal');
+            const notebookNameInput = document.getElementById('notebookNameInput');
+            const createNotebookBtn = document.getElementById('createNotebookBtn');
+            const cancelNotebookBtn = document.getElementById('cancelNotebookBtn');
+            const localStorageBtn = document.getElementById('localStorageBtn');
+            const sessionStorageBtn = document.getElementById('sessionStorageBtn');
+
+            // Initialize
+            NoteBook.init();
+            renderNotebooks();
+            DraggableUI.init('floatingToolbar', 'toolbarHeader');
+
+            // --- Floating Toolbar Events ---
+            
+            // 1. Code Mode Toggle
+            toolCodeMode.addEventListener('click', function() {
+                const currentNotebookId = NoteBook.getCurrentNotebook();
+                const currentNoteId = NoteBook.getCurrentNote();
+                if (!currentNotebookId || !currentNoteId) return;
+
+                const note = NoteBook.getNote(currentNotebookId, currentNoteId);
+                const newState = !note.isCodeMode;
+                NoteBook.updateNote(currentNotebookId, currentNoteId, { isCodeMode: newState });
+                renderEditor();
+            });
+
+            // 2. Sort Button (Split by ---)
+            toolSort.addEventListener('click', () => {
+                if(NoteProcessor.sortSubsection()) renderEditor()
+            });
+
+            // 3. Search & Replace Button
+            toolReplace.addEventListener('click', function() {
+                const currentNotebookId = NoteBook.getCurrentNotebook();
+                const currentNoteId = NoteBook.getCurrentNote();
+                if (!currentNotebookId || !currentNoteId) {
+                    alert('Please select a note first.');
+                    return;
+                }
+                findInput.value = '';
+                replaceInput.value = '';
+                replaceModal.classList.add('show');
+                findInput.focus();
+            });
+
+            // Search Replace Modal Actions
+            confirmReplaceBtn.addEventListener('click', function() {
+                const findText = findInput.value;
+                const replaceText = replaceInput.value;
+                
+                if (!findText) {
+                    alert('Please enter text to find.');
+                    return;
+                }
+
+                const currentNotebookId = NoteBook.getCurrentNotebook();
+                const currentNoteId = NoteBook.getCurrentNote();
+                if (!currentNotebookId || !currentNoteId) return;
+
+                const note = NoteBook.getNote(currentNotebookId, currentNoteId);
+                
+                // Perform global replace
+                // Using split/join is a simple way to replace all occurrences without Regex complexity
+                const newContent = note.content.split(findText).join(replaceText);
+
+                NoteBook.updateNote(currentNotebookId, currentNoteId, { content: newContent });
+                renderEditor();
+                replaceModal.classList.remove('show');
+            });
+
+            cancelReplaceBtn.addEventListener('click', function() {
+                replaceModal.classList.remove('show');
+            });
+
+
+            // Storage toggle events
+            localStorageBtn.addEventListener('click', function() { StorageDriver.setDriver('localStorage'); localStorageBtn.classList.add('active'); sessionStorageBtn.classList.remove('active'); NoteBook.init(); renderNotebooks(); renderNotes(); renderEditor(); });
+            sessionStorageBtn.addEventListener('click', function() { StorageDriver.setDriver('sessionStorage'); sessionStorageBtn.classList.add('active'); localStorageBtn.classList.remove('active'); NoteBook.init(); renderNotebooks(); renderNotes(); renderEditor(); });
+
+            // Notebook events
+            addNotebookBtn.addEventListener('click', function() { notebookModal.classList.add('show'); notebookNameInput.value = ''; notebookNameInput.focus(); });
+            createNotebookBtn.addEventListener('click', function() { const name = notebookNameInput.value.trim(); if (name) { const notebook = NoteBook.createNotebook(name); NoteBook.setCurrentNotebook(notebook.id); renderNotebooks(); renderNotes(); notebookModal.classList.remove('show'); } });
+            cancelNotebookBtn.addEventListener('click', function() { notebookModal.classList.remove('show'); });
+            notebookNameInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') createNotebookBtn.click(); });
+
+            // Note events
+            addNoteBtn.addEventListener('click', function() { const currentNotebookId = NoteBook.getCurrentNotebook(); if (!currentNotebookId) return; const note = NoteBook.createNote(currentNotebookId, 'Untitled Note', ''); NoteBook.setCurrentNote(note.id); renderNotes(); renderEditor(); });
+            deleteNoteBtn.addEventListener('click', function() { const currentNotebookId = NoteBook.getCurrentNotebook(); const currentNoteId = NoteBook.getCurrentNote(); if (currentNotebookId && currentNoteId) { if (confirm('Are you sure you want to delete this note?')) { NoteBook.deleteNote(currentNotebookId, currentNoteId); renderNotes(); renderEditor(); } } });
+
+            // Export/Import events
+            exportBtn.addEventListener('click', function() { const data = NoteBook.exportData(); const blob = new Blob([data], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'onenote_export_' + new Date().getTime() + '.json'; a.click(); URL.revokeObjectURL(url); });
+            importBtn.addEventListener('click', function() { const input = document.createElement('input'); input.type = 'file'; input.accept = '.json'; input.onchange = function(e) { const file = e.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = function(event) { if (NoteBook.importData(event.target.result)) { renderNotebooks(); renderNotes(); alert('Data imported successfully!'); } else { alert('Failed to import data.'); } }; reader.readAsText(file); } }; input.click(); });
+
+            // Search event
+            searchInput.addEventListener('input', function() { const query = this.value.trim(); if (query) { const results = NoteBook.searchNotes(query); renderSearchResults(results); } else { renderNotes(); } });
+
+            // Render functions
+            function renderNotebooks() {
+                const notebooks = NoteBook.getNotebooks();
+                const currentNotebookId = NoteBook.getCurrentNotebook();
+                notebookList.innerHTML = '';
+                notebooks.forEach(notebook => {
+                    const div = document.createElement('div');
+                    div.className = 'notebook-item' + (notebook.id === currentNotebookId ? ' active' : '');
+                    div.innerHTML = `<span>${notebook.name}</span><div class="notebook-actions"><button onclick="renameNotebook('${notebook.id}')">✎</button><button onclick="deleteNotebook('${notebook.id}')">✕</button></div>`;
+                    div.addEventListener('click', function(e) { if (!e.target.closest('.notebook-actions')) { NoteBook.setCurrentNotebook(notebook.id); renderNotebooks(); renderNotes(); renderEditor(); } });
+                    notebookList.appendChild(div);
+                });
+                if (!currentNotebookId && notebooks.length > 0) { NoteBook.setCurrentNotebook(notebooks[0].id); renderNotes(); }
+            }
+
+            function renderNotes() {
+                const currentNotebookId = NoteBook.getCurrentNotebook();
+                if (!currentNotebookId) { notesList.innerHTML = '<div style="padding: 20px; text-align: center; color: #999;">No notebook selected</div>'; return; }
+                const notes = NoteBook.getNotes(currentNotebookId);
+                const currentNoteId = NoteBook.getCurrentNote();
+                notesList.innerHTML = '';
+                notes.forEach(note => {
+                    const div = document.createElement('div');
+                    div.className = 'note-item' + (note.id === currentNoteId ? ' active' : '');
+                    div.innerHTML = `<div class="note-title">${note.title}</div><div class="note-preview">${note.content.substring(0, 50)}</div>`;
+                    div.addEventListener('click', function() { NoteBook.setCurrentNote(note.id); renderNotes(); renderEditor(); });
+                    notesList.appendChild(div);
+                });
+            }
+
+            function renderEditor() {
+                const currentNotebookId = NoteBook.getCurrentNotebook();
+                const currentNoteId = NoteBook.getCurrentNote();
+
+                if (!currentNotebookId || !currentNoteId) {
+                    editorArea.innerHTML = '<div class="empty-state">Select a note or create a new one</div>';
+                    floatingToolbar.classList.remove('visible');
+                    return;
+                }
+
+                const note = NoteBook.getNote(currentNotebookId, currentNoteId);
+                if (!note) {
+                    editorArea.innerHTML = '<div class="empty-state">Note not found</div>';
+                    floatingToolbar.classList.remove('visible');
+                    return;
+                }
+
+                floatingToolbar.classList.add('visible');
+
+                if (note.isCodeMode) {
+                    toolCodeMode.classList.add('active');
+                } else {
+                    toolCodeMode.classList.remove('active');
+                }
+
+                editorArea.innerHTML = `
+                    <div class="editor-header">
+                        <input type="text" id="noteTitleInput" value="${note.title}" placeholder="Note title">
+                    </div>
+                    <div class="editor-content" id="editorContentContainer"></div>
+                `;
+                editorArea.appendChild(floatingToolbar);
+
+                const titleInput = document.getElementById('noteTitleInput');
+                const contentContainer = document.getElementById('editorContentContainer');
+
+                let saveTimeout;
+                function triggerSave(newContent) {
+                    clearTimeout(saveTimeout);
+                    saveTimeout = setTimeout(function() {
+                        NoteBook.updateNote(currentNotebookId, currentNoteId, {
+                            title: titleInput.value,
+                            content: newContent
+                        });
+                        renderNotes(); 
+                    }, 500);
+                }
+
+                titleInput.addEventListener('input', () => triggerSave(note.content));
+
+                if (note.isCodeMode) {
+                    CodeEditor.render(contentContainer, note.content, function(newContent) {
+                        triggerSave(newContent);
+                        note.content = newContent; 
+                    });
+                } else {
+                    contentContainer.innerHTML = `<textarea id="noteContentInput" placeholder="Start typing your note...">${note.content}</textarea>`;
+                    const contentInput = document.getElementById('noteContentInput');
+                    contentInput.addEventListener('input', function() {
+                        triggerSave(this.value);
+                        note.content = this.value; 
+                    });
+                }
+            }
+
+            function renderSearchResults(results) {
+                const currentNoteId = NoteBook.getCurrentNote();
+                notesList.innerHTML = '';
+                if (results.length === 0) { notesList.innerHTML = '<div style="padding: 20px; text-align: center; color: #999;">No results found</div>'; return; }
+                results.forEach(result => {
+                    const div = document.createElement('div');
+                    div.className = 'note-item' + (result.note.id === currentNoteId ? ' active' : '');
+                    div.innerHTML = `<div class="note-title">${result.note.title}</div><div class="note-preview">${result.notebookName}</div><div class="note-preview">${result.note.content.substring(0, 50)}</div>`;
+                    div.addEventListener('click', function() { NoteBook.setCurrentNotebook(result.notebookId); NoteBook.setCurrentNote(result.note.id); searchInput.value = ''; renderNotebooks(); renderNotes(); renderEditor(); });
+                    notesList.appendChild(div);
+                });
+            }
+
+            // Global functions
+            window.renameNotebook = function(notebookId) { const notebook = NoteBook.getNotebook(notebookId); if (!notebook) return; const newName = prompt('Enter new notebook name:', notebook.name); if (newName && newName.trim()) { NoteBook.updateNotebook(notebookId, { name: newName.trim() }); renderNotebooks(); } };
+            window.deleteNotebook = function(notebookId) { const notebook = NoteBook.getNotebook(notebookId); if (!notebook) return; if (confirm(`Are you sure you want to delete "${notebook.name}" and all its notes?`)) { NoteBook.deleteNotebook(notebookId); renderNotebooks(); renderNotes(); renderEditor(); } };
+        });
+    </script>
+</body>
+</html>

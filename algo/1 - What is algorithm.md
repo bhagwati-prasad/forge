@@ -11,3 +11,9 @@
 - deterministic
 - big o
 - turing completeness
+
+```
+Well defined input and output (using range, set or any other mathematical tool)
+Each step should be clear and unambiguos
+Pseudocode is supposed to be language independent, but it may depend upon the paradigm (code arrangement, thinking pattern. like functional, procedural or object oriented)
+```
