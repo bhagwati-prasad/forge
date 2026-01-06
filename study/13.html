@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Encyclopedia of Two-Pointer Techniques</title>
+    <style>
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; line-height: 1.6; color: #1e293b; max-width: 1200px; margin: auto; padding: 40px; background-color: #f1f5f9; }
+        h1 { text-align: center; color: #2563eb; margin-bottom: 50px; font-size: 2.5em; }
+        .tech-card { 
+            background: #ffffff; border-radius: 16px; padding: 35px; margin-bottom: 30px; 
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border-top: 8px solid #2563eb;
+        }
+        .tech-name { font-size: 1.6em; font-weight: 800; color: #1e40af; margin-bottom: 15px; }
+        .tech-desc { font-style: italic; color: #475569; margin-bottom: 20px; font-size: 1.1em; border-left: 4px solid #cbd5e1; padding-left: 15px; }
+        .detail-section { margin-bottom: 25px; }
+        .label { font-weight: 800; color: #334155; display: block; margin-bottom: 5px; text-transform: uppercase; font-size: 0.85em; letter-spacing: 0.05em; }
+        .detail-text { color: #1e293b; margin-bottom: 15px; display: block; }
+        
+        .apps-container { background: #f8fafc; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; }
+        .app-item { margin-bottom: 18px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; }
+        .app-item:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+        .app-title { font-weight: 700; color: #2563eb; display: block; margin-bottom: 4px; }
+        .app-desc { font-size: 0.95em; color: #475569; }
+    </style>
+</head>
+<body>
+    <h1>Encyclopedia of Two-Pointer Techniques</h1>
+
+    <!-- 1. Converging -->
+    <div class="tech-card">
+        <div class="tech-name">1. Converging Pointers (Opposite Ends)</div>
+        <div class="tech-desc">Two pointers start at the extreme ends of a sorted structure and move inward.</div>
+        <div class="detail-section">
+            <span class="label">Use Case</span>
+            <span class="detail-text">Best for finding pairs or verifying global symmetry in sorted arrays or strings.</span>
+            <span class="label">Key Insight</span>
+            <span class="detail-text">In a sorted array, moving the left pointer increases values and the right decreases them, allowing for a targeted linear search.</span>
+        </div>
+        <div class="apps-container">
+            <span class="label">Common Applications</span>
+            <div class="app-item">
+                <span class="app-title">Two Sum Sorted</span>
+                <span class="app-desc">Finds a pair that sums to a target by incrementing the left pointer for a larger sum or decrementing the right for a smaller one.</span>
+            </div>
+            <div class="app-item">
+                <span class="app-title">Valid Palindrome</span>
+                <span class="app-desc">Simultaneously verifies characters from both ends of a string to ensure perfect symmetry in a single pass.</span>
+            </div>
+            <div class="app-item">
+                <span class="app-title">Container With Most Water</span>
+                <span class="app-desc">Maximizes the area between two bars by moving the pointer pointing to the shorter height, seeking a taller boundary.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Slow-Fast -->
+    <div class="tech-card" style="border-top-color: #7c3aed;">
+        <div class="tech-name" style="color: #5b21b6;">2. Slow-Fast Pointers (Tortoise and Hare)</div>
+        <div class="tech-desc">Two pointers traverse a sequence at different speeds (usually 1x and 2x).</div>
+        <div class="detail-section">
+            <span class="label">Use Case</span>
+            <span class="detail-text">Used to identify structural properties like cycles or midpoints in linked lists where indexing is unavailable.</span>
+            <span class="label">Key Insight</span>
+            <span class="detail-text">Relative motion in a cycle ensures collision; relative motion in a line ensures one pointer stays exactly at the halfway mark.</span>
+        </div>
+        <div class="apps-container">
+            <span class="label">Common Applications</span>
+            <div class="app-item">
+                <span class="app-title">Cycle Detection</span>
+                <span class="app-desc">Determines if a linked list contains a loop by checking if the fast pointer eventually overlaps the slow pointer.</span>
+            </div>
+            <div class="app-item">
+                <span class="app-title">Linked List Middle</span>
+                <span class="app-desc">Locates the central node in one pass by moving the fast pointer two nodes for every one node moved by the slow pointer.</span>
+            </div>
+            <div class="app-item">
+                <span class="app-title">Happy Number</span>
+                <span class="app-desc">Identifies if a chain of digit-square calculations reaches 1 or falls into an infinite loop by treating values as nodes in a graph.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Sliding Window -->
+    <div class="tech-card" style="border-top-color: #059669;">
+        <div class="tech-name" style="color: #065f46;">3. Sliding Window (Fixed or Variable)</div>
+        <div class="tech-desc">A contiguous range is maintained between pointers that slides across the data.</div>
+        <div class="detail-section">
+            <span class="label">Use Case</span>
+            <span class="detail-text">Optimal for finding sub-segments that satisfy specific mathematical or logical constraints.</span>
+            <span class="label">Key Insight</span>
+            <span class="detail-text">Reduces O(N²) problems to O(N) by incrementally updating the window state rather than re-calculating from scratch.</span>
+        </div>
+        <div class="apps-container">
+            <span class="label">Common Applications</span>
+            <div class="app-item">
+                <span class="app-title">Longest Unique Substring</span>
+                <span class="app-desc">Uses a window to track distinct characters, contracting the left side whenever a duplicate is detected.</span>
+            </div>
+            <div class="app-item">
+                <span class="app-title">Minimum Window Substring</span>
+                <span class="app-desc">Finds the smallest substring containing all characters of a pattern by expanding to find coverage and shrinking to find optimality.</span>
+            </div>
+            <div class="app-item">
+                <span class="app-title">Sliding Window Maximum</span>
+                <span class="app-desc">Tracks the peak value within a moving frame of size K using a deque to maintain a list of potential maximum candidates.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Diverging -->
+    <div class="tech-card">
+        <div class="tech-name">4. Diverging Pointers (Expand from Center)</div>
+        <div class="tech-desc">Pointers start at a central pivot and expand outward to the boundaries.</div>
+        <div class="detail-section">
+            <span class="label">Use Case</span>
+            <span class="detail-text">Used for identifying symmetry from the inside-out, such as finding palindromes.</span>
+            <span class="label">Key Insight</span>
+            <span class="detail-text">Validating from the center outward allows for early exit as soon as symmetry is broken, optimizing symmetric checks.</span>
+        </div>
+        <div class="apps-container">
+            <span class="label">Common Applications</span>
+            <div class="app-item">
+                <span class="app-title">Longest Palindromic Substring</span>
+                <span class="app-desc">Examines every character and character-pair as a possible center, expanding until the substring is no longer symmetric.</span>
+            </div>
+            <div class="app-item">
+                <span class="app-title">Count Palindromic Substrings</span>
+                <span class="app-desc">Iterates through all possible center indices and counts every valid expansion that remains a palindrome.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Multi-Structure -->
+    <div class="tech-card">
+        <div class="tech-name">5. Multi-Structure Pointers (Independent)</div>
+        <div class="tech-desc">Separate pointers are assigned to different data structures for simultaneous traversal.</div>
+        <div class="detail-section">
+            <span class="label">Use Case</span>
+            <span class="detail-text">Merging, intersecting, or comparing pre-sorted datasets in linear time.</span>
+            <span class="label">Key Insight</span>
+            <span class="detail-text">Syncs multiple data streams by advancing pointers based on value comparisons across structures.</span>
+        </div>
+        <div class="apps-container">
+            <span class="label">Common Applications</span>
+            <div class="app-item">
+                <span class="app-title">Merge Sorted Arrays</span>
+                <span class="app-desc">Combines two sorted lists into one by comparing current pointers and selecting the smaller element at each step.</span>
+            </div>
+            <div class="app-item">
+                <span class="app-title">Is Subsequence</span>
+                <span class="app-desc">Verifies if one string is a subsequence of another by matching characters from the first using the second as a search stream.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Read-Write -->
+    <div class="tech-card">
+        <div class="tech-name">6. Read-Write Pointers (In-place)</div>
+        <div class="tech-desc">A Read pointer scans the data while a Write pointer records the valid elements.</div>
+        <div class="detail-section">
+            <span class="label">Use Case</span>
+            <span class="detail-text">Highly space-efficient in-place modification and filtering of arrays.</span>
+            <span class="label">Key Insight</span>
+            <span class="detail-text">Since the Read pointer is always >= Write pointer, we can safely overwrite the same array without losing future values.</span>
+        </div>
+        <div class="apps-container">
+            <span class="label">Common Applications</span>
+            <div class="app-item">
+                <span class="app-title">Remove Duplicates Sorted</span>
+                <span class="app-desc">Scans sorted data and 'writes' only unique values to the front of the array, effectively truncating duplicates.</span>
+            </div>
+            <div class="app-item">
+                <span class="app-title">Move Zeroes</span>
+                <span class="app-desc">Collects all non-zero values at the front of the array and fills the remaining trailing space with zero values.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. Saddleback -->
+    <div class="tech-card">
+        <div class="tech-name">7. Saddleback Search (2D)</div>
+        <div class="tech-desc">Navigates a 2D sorted matrix from a corner where directions offer binary trends.</div>
+        <div class="detail-section">
+            <span class="label">Use Case</span>
+            <span class="detail-text">Finding targets in large, multi-dimensionally sorted tables (like database indexes).</span>
+            <span class="label">Key Insight</span>
+            <span class="detail-text">Every comparison allows the algorithm to discard an entire row or column, resulting in O(N+M) complexity.</span>
+        </div>
+        <div class="apps-container">
+            <span class="label">Common Applications</span>
+            <div class="app-item">
+                <span class="app-title">Search 2D Matrix II</span>
+                <span class="app-desc">Navigates from top-right to bottom-left to find a target by moving left for smaller values or down for larger ones.</span>
+            </div>
+            <div class="app-item">
+                <span class="app-title">Count Negatives in Sorted Matrix</span>
+                <span class="app-desc">Identifies the 'boundary' between negative and positive numbers across the matrix to sum up total negative counts.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. Binary Search -->
+    <div class="tech-card">
+        <div class="tech-name">8. Binary Search (Logarithmic Pointers)</div>
+        <div class="tech-desc">Pointers define a range that is halved by jumping to the mid-point.</div>
+        <div class="detail-section">
+            <span class="label">Use Case</span>
+            <span class="detail-text">Rapidly finding items in sorted arrays or optimizing a numeric result within a continuous range.</span>
+            <span class="label">Key Insight</span>
+            <span class="detail-text">Halving the search space per step ensures logarithmic efficiency (O(log N)), which handles billions of records in seconds.</span>
+        </div>
+        <div class="apps-container">
+            <span class="label">Common Applications</span>
+            <div class="app-item">
+                <span class="app-title">Rotated Array Search</span>
+                <span class="app-desc">Identifies which half of a rotated array is sorted to correctly adjust boundaries for the target search.</span>
+            </div>
+            <div class="app-item">
+                <span class="app-title">Find Peak Element</span>
+                <span class="app-desc">Navigates toward a local maximum by comparing the midpoint with its neighbors to find an 'uphill' slope.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. Interval -->
+    <div class="tech-card">
+        <div class="tech-name">9. Interval Pointers (Sweep Line)</div>
+        <div class="tech-desc">Two pointers moving independently across sorted lists of start and end timestamps.</div>
+        <div class="detail-section">
+            <span class="label">Use Case</span>
+            <span class="detail-text">Solving scheduling, concurrency, and interval intersection problems.</span>
+            <span class="label">Key Insight</span>
+            <span class="detail-text">Tracking events chronologically as 'entry' and 'exit' allows us to calculate simultaneous overlaps at any point in time.</span>
+        </div>
+        <div class="apps-container">
+            <span class="label">Common Applications</span>
+            <div class="app-item">
+                <span class="app-title">Meeting Rooms II</span>
+                <span class="app-desc">Determines the maximum number of simultaneous meetings by processing all start and end times in a single timeline.</span>
+            </div>
+            <div class="app-item">
+                <span class="app-title">Interval Intersection</span>
+                <span class="app-desc">Finds all time segments where two different sets of intervals overlap by comparing endpoints in a two-pointer pass.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 10. Triple Pointers -->
+    <div class="tech-card">
+        <div class="tech-name">10. Triple Pointers (Partitioning)</div>
+        <div class="tech-desc">Three pointers dividing an array into three logical categorical segments.</div>
+        <div class="detail-section">
+            <span class="label">Use Case</span>
+            <span class="detail-text">Sorting categorical data (like flags or colors) in a single linear pass.</span>
+            <span class="label">Key Insight</span>
+            <span class="detail-text">Maintaining three distinct boundaries allows for O(N) sorting with constant extra memory.</span>
+        </div>
+        <div class="apps-container">
+            <span class="label">Common Applications</span>
+            <div class="app-item">
+                <span class="app-title">Sort Colors (Dutch Flag)</span>
+                <span class="app-desc">Organizes 0s, 1s, and 2s into their respective blocks by swapping values based on a scanning middle pointer.</span>
+            </div>
+            <div class="app-item">
+                <span class="app-title">QuickSort 3-way Partition</span>
+                <span class="app-desc">Handles arrays with many duplicate keys by splitting elements into strictly less, strictly greater, and equal to the pivot.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 11. Cyclic Pointers -->
+    <div class="tech-card">
+        <div class="tech-name">11. Cyclic Pointers (Index as Pointer)</div>
+        <div class="tech-desc">Treats the value found at an index as the 'next' pointer location.</div>
+        <div class="detail-section">
+            <span class="label">Use Case</span>
+            <span class="detail-text">Finding duplicate or missing numbers within an array of range-bound integers.</span>
+            <span class="label">Key Insight</span>
+            <span class="detail-text">Maps the value-index relationship as a directed graph; logic like slow-fast pointers can then find cycles representing duplicates.</span>
+        </div>
+        <div class="apps-container">
+            <span class="label">Common Applications</span>
+            <div class="app-item">
+                <span class="app-title">Duplicate Number Find</span>
+                <span class="app-desc">Uses Floyd’s cycle detection on the array (index -> value) to find the entrance to a cycle, which identifies the duplicate.</span>
+            </div>
+            <div class="app-item">
+                <span class="app-title">First Missing Positive</span>
+                <span class="app-desc">Rearranges the array so each number 'X' is placed at index 'X-1'; the first mismatch in a subsequent pass identifies the gap.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 12. Two-Pass Greedy -->
+    <div class="tech-card">
+        <div class="tech-name">12. Two-Pass Greedy Pointers</div>
+        <div class="tech-desc">Resolves bilateral dependencies by applying a uni-directional pass from both ends sequentially.</div>
+        <div class="detail-section">
+            <span class="label">Use Case</span>
+            <span class="detail-text">Used when an element's final value is influenced by its relationship with both left and right neighbors.</span>
+            <span class="label">Key Insight</span>
+            <span class="detail-text">Decouples complex two-sided problems into two simple one-sided accumulation tasks.</span>
+        </div>
+        <div class="apps-container">
+            <span class="label">Common Applications</span>
+            <div class="app-item">
+                <span class="app-title">Rain Water Trapping</span>
+                <span class="app-desc">Calculates water levels by determining the highest bars to the left and right of each point in two linear passes.</span>
+            </div>
+            <div class="app-item">
+                <span class="app-title">Candy Distribution</span>
+                <span class="app-desc">First pass satisfies left neighbor requirements; second pass corrects for right neighbors while maintaining the first pass's constraints.</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

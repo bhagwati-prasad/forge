@@ -10,3 +10,10 @@ Sum of odd numbers less than n.
 ```
 Printing patterns
 ```
+
+```
+Fibonacci sequence
+Factorial of a number
+Prime number
+Power of two
+```

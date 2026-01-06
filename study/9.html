@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; color: #333; max-width: 1000px; margin: auto; padding: 20px; }
+        .tech-card { border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 20px; background: #f9f9f9; }
+        .tech-name { color: #2563eb; font-size: 1.2em; font-weight: bold; margin-bottom: 10px; border-bottom: 2px solid #2563eb; display: inline-block; }
+        .section-label { font-weight: bold; color: #1e293b; }
+        .apps-list { margin: 5px 0 0 20px; padding: 0; }
+        .apps-list li { color: #475569; }
+    </style>
+</head>
+<body>
+    <h1>Encyclopedia of Two-Pointer Techniques</h1>
+    
+    <!-- Pattern 1 -->
+    <div class="tech-card">
+        <div class="tech-name">1. Converging Pointers (Opposite Ends)</div>
+        <div><span class="section-label">Movement:</span> Pointers start at indices 0 and n-1 and move toward each other.</div>
+        <div><span class="section-label">Key Insight:</span> Commonly used on sorted data to prune the search space from both ends simultaneously based on a comparison.</div>
+        <div><span class="section-label">Common Applications:</span>
+            <ul class="apps-list">
+                <li>Two Sum (Sorted Array), Valid Palindrome, Container With Most Water, Reversing an Array</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pattern 2 -->
+    <div class="tech-card">
+        <div class="tech-name">2. Slow-Fast Pointers (Tortoise and Hare)</div>
+        <div><span class="section-label">Movement:</span> Both pointers move in the same direction, but one moves at double the speed of the other.</div>
+        <div><span class="section-label">Key Insight:</span> Ideal for detecting cycles in a structure or finding structural midpoints in a single pass.</div>
+        <div><span class="section-label">Common Applications:</span>
+            <ul class="apps-list">
+                <li>Linked List Cycle Detection, Finding the Middle of a Linked List, Happy Number</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pattern 3 -->
+    <div class="tech-card">
+        <div class="tech-name">3. Sliding Window (Fixed or Variable)</div>
+        <div><span class="section-label">Movement:</span> Both pointers move in the same direction; the leading pointer expands the window while the trailing pointer shrinks it.</div>
+        <div><span class="section-label">Key Insight:</span> Converts nested loops into a single pass to find a subarray or substring meeting specific criteria.</div>
+        <div><span class="section-label">Common Applications:</span>
+            <ul class="apps-list">
+                <li>Longest Substring Without Repeating Characters, Minimum Size Subarray Sum, Maximum Sum Subarray of Size K</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pattern 4 -->
+    <div class="tech-card">
+        <div class="tech-name">4. Diverging Pointers (Expand from Center)</div>
+        <div><span class="section-label">Movement:</span> Pointers start at the same center index and move outward toward the boundaries.</div>
+        <div><span class="section-label">Key Insight:</span> The most efficient way to check for symmetry or palindromic properties starting from the inside out.</div>
+        <div><span class="section-label">Common Applications:</span>
+            <ul class="apps-list">
+                <li>Longest Palindromic Substring, Palindromic Substrings Count</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pattern 5 -->
+    <div class="tech-card">
+        <div class="tech-name">5. Multi-Structure Pointers</div>
+        <div><span class="section-label">Movement:</span> One pointer per array; they move independently based on logic comparisons.</div>
+        <div><span class="section-label">Key Insight:</span> Used to synchronize, merge, or compare two separate datasets efficiently.</div>
+        <div><span class="section-label">Common Applications:</span>
+            <ul class="apps-list">
+                <li>Merge Sorted Arrays, Intersection of Two Sorted Lists, K-th Smallest in Two Sorted Arrays</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pattern 6 -->
+    <div class="tech-card">
+        <div class="tech-name">6. Read-Write Pointers (In-place)</div>
+        <div><span class="section-label">Movement:</span> Read scans all elements; Write only moves to record valid/modified data.</div>
+        <div><span class="section-label">Key Insight:</span> Enables in-place data transformation with O(1) space by overwriting existing memory.</div>
+        <div><span class="section-label">Common Applications:</span>
+            <ul class="apps-list">
+                <li>Remove Duplicates, Move Zeroes, String Compression</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pattern 7 -->
+    <div class="tech-card">
+        <div class="tech-name">7. Saddleback Search (2D Pointers)</div>
+        <div><span class="section-label">Movement:</span> Starts at Top-Right; moves Left to decrease value or Down to increase value.</div>
+        <div><span class="section-label">Key Insight:</span> Eliminates an entire row or column per step in a 2D sorted matrix.</div>
+        <div><span class="section-label">Common Applications:</span>
+            <ul class="apps-list">
+                <li>Search in a 2D Sorted Matrix II</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pattern 8 -->
+    <div class="tech-card">
+        <div class="tech-name">8. Binary Search (Logarithmic Pointers)</div>
+        <div><span class="section-label">Movement:</span> Pointers jump to the midpoint (mid) instead of stepping by 1.</div>
+        <div><span class="section-label">Key Insight:</span> Redefines boundaries to reduce the search space by half in each iteration.</div>
+        <div><span class="section-label">Common Applications:</span>
+            <ul class="apps-list">
+                <li>Search in Rotated Sorted Array, Search Insert Position</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pattern 9 -->
+    <div class="tech-card">
+        <div class="tech-name">9. Interval Pointers (Sweep Line)</div>
+        <div><span class="section-label">Movement:</span> Two pointers moving across sorted start-times and end-times respectively.</div>
+        <div><span class="section-label">Key Insight:</span> Tracks overlaps and concurrent events by treating intervals as discrete events.</div>
+        <div><span class="section-label">Common Applications:</span>
+            <ul class="apps-list">
+                <li>Meeting Rooms II, Interval List Intersections</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pattern 10 -->
+    <div class="tech-card">
+        <div class="tech-name">10. Triple Pointers (Partitioning)</div>
+        <div><span class="section-label">Movement:</span> Three pointers (Low, Mid, High) to manage three categories of data.</div>
+        <div><span class="section-label">Key Insight:</span> Enables linear time sorting of three distinct values in one pass.</div>
+        <div><span class="section-label">Common Applications:</span>
+            <ul class="apps-list">
+                <li>Dutch National Flag Problem (Sort Colors)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pattern 11 -->
+    <div class="tech-card">
+        <div class="tech-name">11. Cyclic Pointers (Index as Pointer)</div>
+        <div><span class="section-label">Movement:</span> The value at index i (nums[i]) becomes the next pointer location.</div>
+        <div><span class="section-label">Key Insight:</span> Treats array values as jump addresses to detect cycles or misplaced elements.</div>
+        <div><span class="section-label">Common Applications:</span>
+            <ul class="apps-list">
+                <li>Find the Duplicate Number, First Missing Positive</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pattern 12 -->
+    <div class="tech-card">
+        <div class="tech-name">12. Two-Pass Greedy Pointers</div>
+        <div><span class="section-label">Movement:</span> A Left-to-Right pointer pass followed by a separate Right-to-Left pass.</div>
+        <div><span class="section-label">Key Insight:</span> Builds cumulative constraints from both directions to solve bilateral dependency.</div>
+        <div><span class="section-label">Common Applications:</span>
+            <ul class="apps-list">
+                <li>Trapping Rain Water, Candy Problem, Product of Array Except Self</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

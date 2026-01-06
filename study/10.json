@@ -1,0 +1,178 @@
+{
+  "two_pointer_techniques": [
+    {
+      "name": "Converging Pointers (Opposite Ends)",
+      "description": "Two pointers start at the beginning and end of a sorted or symmetric structure and move inward until they meet.",
+      "use_case": "Best used when you need to find a pair of elements that satisfy a sum/difference condition in a sorted array, or when verifying symmetry.",
+      "movement": "Pointers start at indices 0 and n-1 and move toward each other (left++ and right--).",
+      "key_insight": "Sorting allows us to discard an entire range of potential answers by moving only one pointer based on the current comparison.",
+      "common_applications": [
+        "Two Sum (Sorted Array)",
+        "Valid Palindrome",
+        "Container With Most Water",
+        "Reversing an Array",
+        "3Sum (using Two Sum as a sub-problem)",
+        "Trapping Rain Water (Converging variant)",
+        "Sorted Square Array"
+      ]
+    },
+    {
+      "name": "Slow-Fast Pointers (Tortoise and Hare)",
+      "description": "Two pointers move in the same direction at different speeds, typically one at 1x speed and another at 2x speed.",
+      "use_case": "Essential for detecting cycles in linked lists or finding the midpoint of a list without knowing its total length beforehand.",
+      "movement": "Both pointers move forward (slow++ and fast += 2).",
+      "key_insight": "In a cyclic structure, a fast pointer will eventually 'lap' a slow pointer and they will meet at the same node.",
+      "common_applications": [
+        "Linked List Cycle Detection (Floyd's)",
+        "Finding the Middle of a Linked List",
+        "Happy Number",
+        "Finding Cycle Start Node",
+        "Palindrome Linked List Check",
+        "Detecting a cycle in a sequence of functions"
+      ]
+    },
+    {
+      "name": "Sliding Window (Fixed or Variable)",
+      "description": "A 'window' is maintained between two pointers moving in the same direction, capturing a range of elements.",
+      "use_case": "Used to find sub-segments (subarrays/substrings) that satisfy a specific constraint (sum, character count, uniqueness).",
+      "movement": "The 'Right' pointer expands the window; the 'Left' pointer contracts it to maintain validity.",
+      "key_insight": "Converts an O(N^2) nested loop into an O(N) single pass by incrementally updating the current state as the window shifts.",
+      "common_applications": [
+        "Longest Substring Without Repeating Characters",
+        "Minimum Size Subarray Sum",
+        "Maximum Sum Subarray of Size K",
+        "Longest Repeating Character Replacement",
+        "Permutation in String",
+        "Subarray Product Less Than K",
+        "Sliding Window Maximum"
+      ]
+    },
+    {
+      "name": "Diverging Pointers (Expand from Center)",
+      "description": "Pointers start at the same point (or adjacent points) and move outward toward the boundaries of the structure.",
+      "use_case": "Useful for checking properties that radiate from a central point, particularly symmetry or palindromic growth.",
+      "movement": "Pointers move in opposite directions away from center (left-- and right++).",
+      "key_insight": "By checking the center first, we can stop early if symmetry is broken, avoiding unnecessary outer checks.",
+      "common_applications": [
+        "Longest Palindromic Substring",
+        "Count Palindromic Substrings",
+        "Valid Palindrome II (Check after one mismatch)",
+        "Shortest Palindrome",
+        "Checking symmetry in binary trees (via level order traversal logic)"
+      ]
+    },
+    {
+      "name": "Multi-Structure Pointers (Independent)",
+      "description": "Separate pointers are assigned to two or more distinct data structures to track progress through each simultaneously.",
+      "use_case": "Ideal for merging, intersecting, or comparing multiple sorted lists or arrays in linear time.",
+      "movement": "Each pointer moves independently based on the values found in their respective structures.",
+      "key_insight": "Synchronizes multiple sorted streams into a single result without needing to sort the combined data from scratch.",
+      "common_applications": [
+        "Merge Sorted Arrays",
+        "Intersection of Two Sorted Lists",
+        "Union of Two Sorted Arrays",
+        "K-th Smallest Element in Two Sorted Arrays",
+        "Compare Version Numbers",
+        "Is Subsequence"
+      ]
+    },
+    {
+      "name": "Read-Write Pointers (In-place)",
+      "description": "Two pointers move in the same direction: one 'reads' every element, while the other 'writes' only elements that should remain.",
+      "use_case": "Used for 'in-place' array modification where you want to filter or transform data without using extra space.",
+      "movement": "The 'Read' pointer iterates through all indices; 'Write' only increments when an element is kept.",
+      "key_insight": "The 'Read' pointer is always >= 'Write' pointer, so we never overwrite an element before we've had a chance to read it.",
+      "common_applications": [
+        "Remove Duplicates from Sorted Array",
+        "Move Zeroes",
+        "Remove Element",
+        "String Compression",
+        "In-place Array Reverse / Partitioning",
+        "Square each element in sorted array (with negative numbers)"
+      ]
+    },
+    {
+      "name": "Saddleback Search (2D Pointers)",
+      "description": "A pointer starts at a strategic corner (Top-Right or Bottom-Left) of a sorted 2D matrix and moves row-by-row or column-by-column.",
+      "use_case": "Useful for finding a target value in a 2D matrix where every row and every column is sorted.",
+      "movement": "Move Left if current > target; move Down if current < target.",
+      "key_insight": "Starting at a corner where one direction increases and the other decreases allows us to eliminate an entire row or column in O(1).",
+      "common_applications": [
+        "Search in a 2D Sorted Matrix II",
+        "Find target in Young Tableau",
+        "Count negative numbers in a sorted matrix",
+        "Finding Saddle Point"
+      ]
+    },
+    {
+      "name": "Binary Search (Logarithmic Pointers)",
+      "description": "Two pointers define a search range that is halved in every step by moving to the midpoint.",
+      "use_case": "Essential for searching in sorted arrays or finding an optimal answer within a continuous range of values.",
+      "movement": "Pointers jump to (left + right) / 2 based on a boolean condition check.",
+      "key_insight": "By dividing the search space by two each time, we achieve a logarithmic time complexity of O(log N).",
+      "common_applications": [
+        "Search in Sorted Array",
+        "Search in Rotated Sorted Array",
+        "Search Insert Position",
+        "Find Peak Element",
+        "Find First and Last Position of Element in Sorted Array",
+        "Koko Eating Bananas (BS on Answer Space)"
+      ]
+    },
+    {
+      "name": "Interval Pointers (Sweep Line)",
+      "description": "Two pointers move across two sorted lists of timestamps (starts and ends) to manage time-based overlaps.",
+      "use_case": "Best for scheduling problems, finding resource requirements over time, or calculating intersection of time intervals.",
+      "movement": "Pointer A moves through sorted start times; Pointer B moves through sorted end times.",
+      "key_insight": "Treats intervals as 'events' (entrance and exit) to calculate the maximum number of concurrent overlaps.",
+      "common_applications": [
+        "Meeting Rooms II",
+        "Interval List Intersections",
+        "Merge Intervals",
+        "Minimum Number of Taps to Water Garden",
+        "Employee Free Time"
+      ]
+    },
+    {
+      "name": "Triple Pointers (Partitioning)",
+      "description": "Three pointers (Low, Mid, High) are used to split an array into three logical segments (e.g., less than, equal to, greater than).",
+      "use_case": "Used for sorting arrays with few distinct values or performing 3-way partitioning for QuickSort.",
+      "movement": "Mid pointer scans; Low and High act as boundaries for the respective outer categories.",
+      "key_insight": "Allows sorting three distinct values in a single linear pass with constant extra space.",
+      "common_applications": [
+        "Sort Colors (Dutch National Flag)",
+        "QuickSort 3-way Partitioning",
+        "Move 0s, 1s, and 2s to separate sections",
+        "Rearrange array such that negatives are left, 0s middle, positives right"
+      ]
+    },
+    {
+      "name": "Cyclic Pointers (Index as Pointer)",
+      "description": "The value stored at the current array index is treated as the index for the next pointer position.",
+      "use_case": "Useful for problems where the array contains values within the range [0, N], effectively acting as a linked list in disguise.",
+      "movement": "current_ptr = nums[current_ptr].",
+      "key_insight": "Transformations or cycles in numbers can be detected by treating the index-value relationship as a graph edge.",
+      "common_applications": [
+        "Find the Duplicate Number (Floyd's in Array)",
+        "First Missing Positive",
+        "All Numbers Disappeared in an Array",
+        "Couples Holding Hands",
+        "Array Nesting"
+      ]
+    },
+    {
+      "name": "Two-Pass Greedy Pointers",
+      "description": "The logic is applied twice: once from left-to-right and then once from right-to-left.",
+      "use_case": "Used when an element's final state depends on constraints coming from both the left and right neighbors.",
+      "movement": "First loop i=0 to n; Second loop i=n-1 to 0.",
+      "key_insight": "Splitting the problem into two uni-directional passes simplifies bilateral dependencies into linear accumulation.",
+      "common_applications": [
+        "Trapping Rain Water",
+        "Candy Distribution",
+        "Product of Array Except Self",
+        "Gas Station (Circuit check)",
+        "Longest Valid Parentheses (Two-pass variant)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "two_pointer_techniques": [
+    {
+      "name": "Converging Pointers (Opposite Ends)",
+      "movement": "Pointers start at indices 0 and n-1 and move toward each other.",
+      "key_insight": "Commonly used on sorted data to prune the search space from both ends simultaneously based on a comparison.",
+      "common_applications": ["Two Sum (Sorted Array)", "Valid Palindrome", "Container With Most Water", "Reversing an Array"]
+    },
+    {
+      "name": "Slow-Fast Pointers (Tortoise and Hare)",
+      "movement": "Both pointers move in the same direction, but one moves at double the speed of the other.",
+      "key_insight": "Ideal for detecting cycles in a structure or finding structural midpoints in a single pass.",
+      "common_applications": ["Linked List Cycle Detection", "Finding the Middle of a Linked List", "Happy Number"]
+    },
+    {
+      "name": "Sliding Window (Fixed or Variable)",
+      "movement": "Both pointers move in the same direction; the leading pointer expands the window while the trailing pointer shrinks it.",
+      "key_insight": "Converts nested loops into a single pass to find a subarray or substring meeting specific criteria.",
+      "common_applications": ["Longest Substring Without Repeating Characters", "Minimum Size Subarray Sum", "Maximum Sum Subarray of Size K"]
+    },
+    {
+      "name": "Diverging Pointers (Expand from Center)",
+      "movement": "Pointers start at the same (or adjacent) center index and move outward toward the boundaries.",
+      "key_insight": "The most efficient way to check for symmetry or palindromic properties starting from the inside out.",
+      "common_applications": ["Longest Palindromic Substring", "Palindromic Substrings Count"]
+    },
+    {
+      "name": "Multi-Structure Pointers (Independent)",
+      "movement": "One pointer is assigned to each of two different arrays/lists; they move independently based on logic.",
+      "key_insight": "Used to synchronize, merge, or compare two separate datasets efficiently.",
+      "common_applications": ["Merge Sorted Arrays", "Intersection of Two Sorted Lists", "K-th Smallest Element in Two Sorted Arrays"]
+    },
+    {
+      "name": "Read-Write Pointers (In-place)",
+      "movement": "Both move in the same direction; the 'Read' pointer scans all elements while the 'Write' pointer only moves when data is modified.",
+      "key_insight": "Enables in-place data transformation with O(1) space by overwriting existing memory.",
+      "common_applications": ["Remove Duplicates from Sorted Array", "Move Zeroes", "String Compression"]
+    },
+    {
+      "name": "Saddleback Search (2D Pointers)",
+      "movement": "Pointers start at a corner of a 2D matrix (e.g., Top-Right) and move Row-wise or Column-wise.",
+      "key_insight": "Utilizes 2D sorting to eliminate an entire row or column in every single step, reducing search complexity.",
+      "common_applications": ["Search in a 2D Sorted Matrix II"]
+    },
+    {
+      "name": "Binary Search (Logarithmic Pointers)",
+      "movement": "Pointers jump to the midpoint of the range rather than incrementing by 1.",
+      "key_insight": "Reduces the search space by half in each iteration by evaluating the relationship between bounds.",
+      "common_applications": ["Search in Rotated Sorted Array", "Median of Two Sorted Arrays", "Search Insert Position"]
+    },
+    {
+      "name": "Interval Pointers (Sweep Line)",
+      "movement": "One pointer iterates through sorted start times, and another through sorted end times.",
+      "key_insight": "Allows tracking of concurrent events or overlaps by treating intervals as discrete events.",
+      "common_applications": ["Meeting Rooms II", "Interval List Intersections"]
+    },
+    {
+      "name": "Triple Pointers (Partitioning)",
+      "movement": "Three pointers (Low, Mid, High) divide an array into three logical sections.",
+      "key_insight": "Enables sorting of three distinct categories/values in a single pass (3-way partitioning).",
+      "common_applications": ["Sort Colors (Dutch National Flag Problem)"]
+    },
+    {
+      "name": "Cyclic Pointers (Index as Pointer)",
+      "movement": "The value at the current pointer's index is used as the address for the next pointer location.",
+      "key_insight": "Treats array values as pointers to detect duplicates or missing numbers within a fixed range [1, n].",
+      "common_applications": ["Find the Duplicate Number", "First Missing Positive"]
+    },
+    {
+      "name": "Two-Pass Greedy Pointers",
+      "movement": "One pointer pass from Left-to-Right, followed by a separate pointer pass from Right-to-Left.",
+      "key_insight": "Builds prefix and suffix constraints independently to solve problems where an element depends on both neighbors.",
+      "common_applications": ["Trapping Rain Water", "Candy Problem", "Product of Array Except Self"]
+    }
+  ]
+}

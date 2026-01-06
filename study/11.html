@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Encyclopedia of Two-Pointer Techniques</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; line-height: 1.6; color: #1e293b; max-width: 1100px; margin: auto; padding: 40px; background-color: #f8fafc; }
+        h1 { text-align: center; color: #2563eb; margin-bottom: 40px; }
+        .tech-card { 
+            background: #ffffff; border-radius: 12px; padding: 25px; margin-bottom: 25px; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border-left: 6px solid #2563eb;
+        }
+        .tech-name { font-size: 1.4em; font-weight: bold; color: #2563eb; margin-bottom: 12px; }
+        .tech-desc { font-style: italic; color: #475569; margin-bottom: 15px; }
+        .detail-row { margin-bottom: 10px; }
+        .label { font-weight: 700; color: #334155; min-width: 140px; display: inline-block; }
+        .apps-list { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; }
+        .app-tag { background: #eff6ff; color: #1d4ed8; padding: 4px 12px; border-radius: 15px; font-size: 0.85em; border: 1px solid #dbeafe; }
+    </style>
+</head>
+<body>
+    <h1>Encyclopedia of Two-Pointer Techniques</h1>
+
+    <!-- 1 -->
+    <div class="tech-card">
+        <div class="tech-name">1. Converging Pointers (Opposite Ends)</div>
+        <div class="tech-desc">Two pointers start at the beginning and end of a structure and move inward.</div>
+        <div class="detail-row"><span class="label">Use Case:</span> Finding pairs in sorted arrays or verifying symmetry.</div>
+        <div class="detail-row"><span class="label">Movement:</span> Indices 0 and n-1 moving toward each other (left++, right--).</div>
+        <div class="detail-row"><span class="label">Key Insight:</span> Eliminates search space in O(1) based on sorted properties.</div>
+        <div class="label">Common Applications:</div>
+        <ul class="apps-list">
+            <li class="app-tag">Two Sum Sorted</li><li class="app-tag">Valid Palindrome</li><li class="app-tag">Container With Water</li>
+            <li class="app-tag">3Sum</li><li class="app-tag">Trapping Rain Water</li><li class="app-tag">Reverse Array</li>
+        </ul>
+    </div>
+
+    <!-- 2 -->
+    <div class="tech-card">
+        <div class="tech-name">2. Slow-Fast Pointers (Tortoise and Hare)</div>
+        <div class="tech-desc">Two pointers move forward at different speeds (1x and 2x).</div>
+        <div class="detail-row"><span class="label">Use Case:</span> Cycle detection and finding midpoints without length metadata.</div>
+        <div class="detail-row"><span class="label">Movement:</span> Both move forward; Fast skips one element (fast += 2).</div>
+        <div class="detail-row"><span class="label">Key Insight:</span> Meeting point guarantees a cycle or exact midpoint ratio.</div>
+        <div class="label">Common Applications:</div>
+        <ul class="apps-list">
+            <li class="app-tag">Linked List Cycle</li><li class="app-tag">Middle of List</li><li class="app-tag">Happy Number</li>
+            <li class="app-tag">Cycle Start Node</li><li class="app-tag">Palindrome List</li>
+        </ul>
+    </div>
+
+    <!-- 3 -->
+    <div class="tech-card">
+        <div class="tech-name">3. Sliding Window</div>
+        <div class="tech-desc">Maintains a range between two pointers to track contiguous sub-segments.</div>
+        <div class="detail-row"><span class="label">Use Case:</span> Tracking sum, uniqueness, or patterns in subarrays/substrings.</div>
+        <div class="detail-row"><span class="label">Movement:</span> Right expands, Left contracts based on validity.</div>
+        <div class="detail-row"><span class="label">Key Insight:</span> Incremental updates avoid re-calculating the whole window state.</div>
+        <div class="label">Common Applications:</div>
+        <ul class="apps-list">
+            <li class="app-tag">Longest Unique Substring</li><li class="app-tag">Max Sum Subarray</li><li class="app-tag">Permutation in String</li>
+            <li class="app-tag">Sliding Window Max</li><li class="app-tag">Min Window Substring</li>
+        </ul>
+    </div>
+
+    <!-- 4 -->
+    <div class="tech-card">
+        <div class="tech-name">4. Diverging Pointers (Expand from Center)</div>
+        <div class="tech-desc">Pointers start at a central pivot and expand outward.</div>
+        <div class="detail-row"><span class="label">Use Case:</span> Identifying symmetry from the center-most point.</div>
+        <div class="detail-row"><span class="label">Movement:</span> Opposite directions outward (left--, right++).</div>
+        <div class="detail-row"><span class="label">Key Insight:</span> Stopping expansion immediately upon mismatch optimizes symmetry checks.</div>
+        <div class="label">Common Applications:</div>
+        <ul class="apps-list">
+            <li class="app-tag">Longest Palindrome</li><li class="app-tag">Shortest Palindrome</li><li class="app-tag">Count Sub-palindromes</li>
+            <li class="app-tag">Tree Symmetry</li>
+        </ul>
+    </div>
+
+    <!-- 5 -->
+    <div class="tech-card">
+        <div class="tech-name">5. Multi-Structure Pointers</div>
+        <div class="tech-desc">Independent pointers assigned to different data sources.</div>
+        <div class="detail-row"><span class="label">Use Case:</span> Linear-time operations on multiple sorted streams.</div>
+        <div class="detail-row"><span class="label">Movement:</span> Each pointer advances based on cross-structure comparisons.</div>
+        <div class="detail-row"><span class="label">Key Insight:</span> Processes pre-sorted data without merging or re-sorting overhead.</div>
+        <div class="label">Common Applications:</div>
+        <ul class="apps-list">
+            <li class="app-tag">Merge Sorted Arrays</li><li class="app-tag">Intersection of Lists</li><li class="app-tag">K-th Smallest in Two Arrays</li>
+            <li class="app-tag">Is Subsequence</li><li class="app-tag">Merge Sort (Merge Step)</li>
+        </ul>
+    </div>
+
+    <!-- 6 -->
+    <div class="tech-card">
+        <div class="tech-name">6. Read-Write Pointers (In-place)</div>
+        <div class="tech-desc">One pointer iterates through the data; another tracks the modification index.</div>
+        <div class="detail-row"><span class="label">Use Case:</span> Space-efficient in-place filtering or compression.</div>
+        <div class="detail-row"><span class="label">Movement:</span> Both move forward; Write only advances on 'keep' conditions.</div>
+        <div class="detail-row"><span class="label">Key Insight:</span> Safe in-place editing by ensuring Read index is always >= Write index.</div>
+        <div class="label">Common Applications:</div>
+        <ul class="apps-list">
+            <li class="app-tag">Remove Duplicates</li><li class="app-tag">Move Zeroes</li><li class="app-tag">String Compression</li>
+            <li class="app-tag">Remove Element</li>
+        </ul>
+    </div>
+
+    <!-- 7 -->
+    <div class="tech-card">
+        <div class="tech-name">7. Saddleback Search (2D)</div>
+        <div class="tech-desc">Navigation from a corner through a 2D sorted matrix.</div>
+        <div class="detail-row"><span class="label">Use Case:</span> Rapidly finding a target in sorted 2D tables.</div>
+        <div class="detail-row"><span class="label">Movement:</span> Left or Down depending on target comparison.</div>
+        <div class="detail-row"><span class="label">Key Insight:</span> Discarding entire rows/columns reduces O(N*M) to O(N+M).</div>
+        <div class="label">Common Applications:</div>
+        <ul class="apps-list">
+            <li class="app-tag">Matrix Search II</li><li class="app-tag">Count Negative in Matrix</li><li class="app-tag">Young Tableau</li>
+        </ul>
+    </div>
+
+    <!-- 8 -->
+    <div class="tech-card">
+        <div class="tech-name">8. Binary Search (Logarithmic)</div>
+        <div class="tech-desc">Pointers define a range that is halved by jumping to the mid.</div>
+        <div class="detail-row"><span class="label">Use Case:</span> Finding values or optimal solutions in sorted spaces.</div>
+        <div class="detail-row"><span class="label">Movement:</span> Jump to midpoint (left + right) / 2.</div>
+        <div class="detail-row"><span class="label">Key Insight:</span> Logarithmic efficiency achieved by dividing the search area.</div>
+        <div class="label">Common Applications:</div>
+        <ul class="apps-list">
+            <li class="app-tag">Sorted Search</li><li class="app-tag">Rotated Array Search</li><li class="app-tag">Peak Finding</li>
+            <li class="app-tag">BS on Answer</li>
+        </ul>
+    </div>
+
+    <!-- 9 -->
+    <div class="tech-card">
+        <div class="tech-name">9. Interval Pointers</div>
+        <div class="tech-desc">Pointers tracking separate sorted lists of start and end times.</div>
+        <div class="detail-row"><span class="label">Use Case:</span> Overlap management and scheduling tasks.</div>
+        <div class="detail-row"><span class="label">Movement:</span> Independent advance through Start and End event streams.</div>
+        <div class="detail-row"><span class="label">Key Insight:</span> Overlap counting via discrete entrance/exit events.</div>
+        <div class="label">Common Applications:</div>
+        <ul class="apps-list">
+            <li class="app-tag">Meeting Rooms II</li><li class="app-tag">Interval Intersection</li><li class="app-tag">Merge Intervals</li>
+        </ul>
+    </div>
+
+    <!-- 10 -->
+    <div class="tech-card">
+        <div class="tech-name">10. Triple Pointers (Partitioning)</div>
+        <div class="tech-desc">Three pointers dividing an array into three distinct logical segments.</div>
+        <div class="detail-row"><span class="label">Use Case:</span> Sorting arrays with a small set of unique values.</div>
+        <div class="detail-row"><span class="label">Movement:</span> One scanning pointer with two boundary trackers.</div>
+        <div class="detail-row"><span class="label">Key Insight:</span> Constant space partitioning of complex categories.</div>
+        <div class="label">Common Applications:</div>
+        <ul class="apps-list">
+            <li class="app-tag">Sort Colors</li><li class="app-tag">QuickSort Partition</li><li class="app-tag">3-way Sort</li>
+        </ul>
+    </div>
+
+    <!-- 11 -->
+    <div class="tech-card">
+        <div class="tech-name">11. Cyclic Pointers</div>
+        <div class="tech-desc">Using the value found at an index as the next index to visit.</div>
+        <div class="detail-row"><span class="label">Use Case:</span> Finding missing or duplicate items in range-bound arrays.</div>
+        <div class="detail-row"><span class="label">Movement:</span> curr = nums[curr].</div>
+        <div class="detail-row"><span class="label">Key Insight:</span> Maps array data as directed graphs to find cycle entry points.</div>
+        <div class="label">Common Applications:</div>
+        <ul class="apps-list">
+            <li class="app-tag">Duplicate Number</li><li class="app-tag">Missing Positive</li><li class="app-tag">Array Nesting</li>
+        </ul>
+    </div>
+
+    <!-- 12 -->
+    <div class="tech-card">
+        <div class="tech-name">12. Two-Pass Greedy Pointers</div>
+        <div class="tech-desc">Applying uni-directional pointer passes from both ends sequentially.</div>
+        <div class="detail-row"><span class="label">Use Case:</span> Problems where local state depends on global bilateral context.</div>
+        <div class="detail-row"><span class="label">Movement:</span> Left-to-Right pass then Right-to-Left pass.</div>
+        <div class="detail-row"><span class="label">Key Insight:</span> Decouples complex multi-directional dependencies.</div>
+        <div class="label">Common Applications:</div>
+        <ul class="apps-list">
+            <li class="app-tag">Rain Water Trapping</li><li class="app-tag">Candy Distribution</li><li class="app-tag">Product Except Self</li>
+        </ul>
+    </div>
+
+</body>
+</html>

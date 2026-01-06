@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm & Data Structure Universe</title>
+    <style>
+        :root {
+            --cv-primary: #2563eb;
+            --cv-bg: #ffffff;
+            --cv-border: #cbd5e1;
+            --cv-text: #1e293b;
+            --cv-line-color: #94a3b8;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* UI CONTROLS */
+        .controls {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+            border: 1px solid var(--cv-border);
+        }
+
+        button {
+            padding: 8px 24px;
+            border-radius: 20px;
+            border: 1px solid transparent;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--cv-text);
+            transition: all 0.2s;
+        }
+
+        button.active {
+            background: var(--cv-primary);
+            color: white;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+        }
+
+        #viewer {
+            margin-top: 100px;
+            padding: 20px;
+        }
+
+        /* --- VISUALIZER CONTAINER --- */
+        .cv-container {
+            color: var(--cv-text);
+            background: var(--cv-bg);
+            border-radius: 12px;
+            padding: 40px;
+            min-height: 80vh;
+            border: 1px solid var(--cv-border);
+        }
+
+        /* --- MODE 1: DIRECTORY VIEW --- */
+        .cv-directory ul {
+            list-style-type: none;
+            padding-left: 24px;
+            margin: 0;
+            border-left: 1px dashed var(--cv-border);
+        }
+        .cv-directory li { margin: 8px 0; position: relative; }
+        .cv-directory details > summary {
+            cursor: pointer;
+            font-weight: 600;
+            padding: 6px 10px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            list-style: none;
+            user-select: none;
+        }
+        .cv-directory details > summary:hover { background: #f1f5f9; }
+        .cv-directory details > summary:before {
+            content: '';
+            display: inline-block;
+            width: 0; height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 8px solid var(--cv-line-color);
+            margin-right: 10px;
+            transition: transform 0.2s;
+        }
+        .cv-directory details[open] > summary:before { transform: rotate(90deg); }
+        .cv-directory .node-leaf { padding: 4px 10px; margin-left: 18px; display: block; color: #475569; }
+        .cv-directory .meta-tag {
+            font-size: 0.7rem;
+            background: #eff6ff;
+            color: var(--cv-primary);
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            border: 1px solid #dbeafe;
+        }
+
+        /* --- MODE 2: GRAPH VIEW (Fixed Scrolling) --- */
+        .cv-graph { 
+            display: block;      /* Changed from flex to block */
+            overflow-x: auto;    /* Allow horizontal scrolling */
+            overflow-y: hidden;
+            text-align: center;  /* Centers the inline-table if it's smaller than the screen */
+            padding-bottom: 100px; 
+            width: 100%;
+        }
+        
+        .cv-graph table { 
+            border-collapse: separate; 
+            border-spacing: 0; 
+            margin: 0 auto;      /* The magic: centers table but keeps it scrollable from left-to-right */
+            display: inline-table; 
+        }
+
+        .cv-graph td { text-align: center; vertical-align: top; padding: 0; }
+        
+        .cv-node-card {
+            border: 1px solid var(--cv-border);
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            display: inline-block;
+            min-width: 150px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            margin: 0 10px;
+            position: relative;
+        }
+        .cv-node-title { font-weight: 700; font-size: 0.85rem; color: var(--cv-primary); }
+        .cv-node-problems { font-size: 0.7rem; color: #94a3b8; margin-top: 6px; border-top: 1px solid #f1f5f9; padding-top: 4px; }
+
+        /* Lines */
+        .cv-line-v { width: 2px; height: 20px; background-color: var(--cv-line-color); margin: 0 auto; }
+        .cv-line-h-left { border-top: 2px solid var(--cv-line-color); width: 50%; }
+        .cv-line-h-right { border-top: 2px solid var(--cv-line-color); width: 50%; }
+        .cv-line-h-full { border-top: 2px solid var(--cv-line-color); }
+        .cv-edge-left { border-top: none !important; }
+        .cv-edge-right { border-top: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button id="btn-dir" class="active" onclick="setView('directory')">Directory View</button>
+        <button id="btn-graph" onclick="setView('graph')">Graph View</button>
+    </div>
+
+    <div id="viewer"></div>
+
+    <script>
+        /**
+         * EXHAUSTIVE CONCEPT DATA
+         */
+        const conceptData = {
+            "root": {
+                "name": "Software Engineering Mastery",
+                "children": [
+                    {
+                        "name": "Complexity Analysis",
+                        "children": [
+                            { "name": "Big O Notation" },
+                            { "name": "Amortized Analysis" },
+                            { "name": "Space Complexity" }
+                        ]
+                    },
+                    {
+                        "name": "Data Structures",
+                        "children": [
+                            {
+                                "name": "Linear",
+                                "children": [
+                                    { "name": "Arrays", "children": [{ "name": "Dynamic" }, { "name": "Matrix" }] },
+                                    { "name": "Linked Lists", "children": [{ "name": "Singly" }, { "name": "Doubly" }, { "name": "Skip List" }] },
+                                    { "name": "Stacks & Queues" }
+                                ]
+                            },
+                            {
+                                "name": "Trees",
+                                "children": [
+                                    { "name": "BST", "children": [{ "name": "AVL" }, { "name": "Red-Black" }] },
+                                    { "name": "Heaps", "children": [{ "name": "Binary" }, { "name": "Fibonacci" }] },
+                                    { "name": "Tries" },
+                                    { "name": "Segment Tree" }
+                                ]
+                            },
+                            {
+                                "name": "Hashing",
+                                "children": [
+                                    { "name": "Hash Maps" },
+                                    { "name": "Bloom Filters" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Algorithms",
+                        "children": [
+                            {
+                                "name": "Sorting",
+                                "children": [
+                                    { "name": "QuickSort" },
+                                    { "name": "MergeSort" },
+                                    { "name": "HeapSort" }
+                                ]
+                            },
+                            {
+                                "name": "Graphs",
+                                "children": [
+                                    { "name": "Dijkstra" },
+                                    { "name": "Bellman-Ford" },
+                                    { "name": "BFS/DFS" },
+                                    { "name": "A*" }
+                                ]
+                            },
+                            {
+                                "name": "Dynamic Programming",
+                                "children": [
+                                    { "name": "0/1 Knapsack" },
+                                    { "name": "LCS" },
+                                    { "name": "LIS" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        /**
+         * VISUALIZER ENGINE
+         */
+        const ConceptVisualizer = (function() {
+            function renderBadges(node) {
+                if (!node.related_concepts || node.related_concepts.length === 0) return '';
+                return `<span class="meta-tag">🔗 ${node.related_concepts.length}</span>`;
+            }
+
+            function buildDirectoryHTML(node) {
+                const hasChildren = node.children && node.children.length > 0;
+                const badges = renderBadges(node);
+
+                if (hasChildren) {
+                    let childrenHTML = node.children.map(child => buildDirectoryHTML(child)).join('');
+                    return `<li><details open><summary>${node.name} ${badges}</summary><ul>${childrenHTML}</ul></details></li>`;
+                } else {
+                    return `<li><span class="node-leaf">📄 ${node.name} ${badges}</span></li>`;
+                }
+            }
+
+            function buildGraphHTML(node) {
+                const hasChildren = node.children && node.children.length > 0;
+                const cardHTML = `<div class="cv-node-card"><span class="cv-node-title">${node.name}</span></div>`;
+
+                if (!hasChildren) return `<table><tr><td>${cardHTML}</td></tr></table>`;
+
+                const childCount = node.children.length;
+                let connectorRow = '';
+                node.children.forEach((_, index) => {
+                    const isFirst = index === 0;
+                    const isLast = index === childCount - 1;
+                    connectorRow += `
+                        <td class="cv-line-h-right ${isFirst ? 'cv-edge-left' : 'cv-line-h-full'}"></td>
+                        <td class="cv-line-h-left ${isLast ? 'cv-edge-right' : 'cv-line-h-full'}"></td>`;
+                });
+
+                let verticalLineRow = '';
+                node.children.forEach(() => { verticalLineRow += `<td colspan="2"><div class="cv-line-v"></div></td>`; });
+
+                let childrenRow = '';
+                node.children.forEach(child => { childrenRow += `<td colspan="2">${buildGraphHTML(child)}</td>`; });
+
+                return `
+                    <table>
+                        <tr><td colspan="${childCount * 2}">${cardHTML}</td></tr>
+                        <tr><td colspan="${childCount * 2}"><div class="cv-line-v"></div></td></tr>
+                        <tr>${childCount > 1 ? connectorRow : '<td colspan="2"></td>'}</tr>
+                        <tr>${verticalLineRow}</tr>
+                        <tr>${childrenRow}</tr>
+                    </table>`;
+            }
+
+            return {
+                render: function(data, element, mode) {
+                    const rootNode = data.root || data;
+                    const contentHTML = mode === 'directory' 
+                        ? `<div class="cv-directory"><ul>${buildDirectoryHTML(rootNode)}</ul></div>`
+                        : `<div class="cv-graph">${buildGraphHTML(rootNode)}</div>`;
+                    element.innerHTML = `<div class="cv-container">${contentHTML}</div>`;
+                }
+            };
+        })();
+
+        function setView(mode) {
+            document.getElementById('btn-dir').classList.toggle('active', mode === 'directory');
+            document.getElementById('btn-graph').classList.toggle('active', mode === 'graph');
+            ConceptVisualizer.render(conceptData, document.getElementById('viewer'), mode);
+        }
+
+        window.onload = () => setView('directory');
+    </script>
+</body>
+</html>

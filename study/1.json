@@ -1,0 +1,281 @@
+{
+  "root": {
+    "id": "ROOT_001",
+    "name": "Software Engineering & Computer Science Mastery",
+    "type": "domain",
+    "children": [
+      {
+        "id": "ANALYSIS_001",
+        "name": "Complexity Analysis & Concepts",
+        "children": [
+          {
+            "id": "COMP_ASYM",
+            "name": "Asymptotic Notation",
+            "concepts": ["Big O", "Big Omega", "Big Theta", "Little o"],
+            "children": []
+          },
+          {
+            "id": "COMP_MEM",
+            "name": "Memory Management",
+            "concepts": ["Stack vs Heap", "Garbage Collection", "Pointers/References", "Memory Alignment", "Cache Locality"],
+            "children": []
+          },
+          {
+            "id": "COMP_TYPES",
+            "name": "Complexity Classes",
+            "concepts": ["P", "NP", "NP-Complete", "NP-Hard", "Space Complexity (PSPACE)"],
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "DS_001",
+        "name": "Data Structures",
+        "children": [
+          {
+            "id": "DS_LINEAR",
+            "name": "Linear Data Structures",
+            "children": [
+              {
+                "id": "ARR_001",
+                "name": "Arrays",
+                "children": [
+                  { "id": "ARR_STATIC", "name": "Static Arrays" },
+                  { "id": "ARR_DYN", "name": "Dynamic Arrays (ArrayList/Vector)" },
+                  { "id": "MAT_001", "name": "Matrices / Multidimensional" }
+                ]
+              },
+              {
+                "id": "LL_001",
+                "name": "Linked Lists",
+                "children": [
+                  { "id": "LL_SLL", "name": "Singly Linked List" },
+                  { "id": "LL_DLL", "name": "Doubly Linked List" },
+                  { "id": "LL_CIRC", "name": "Circular Linked List" },
+                  { "id": "LL_XOR", "name": "XOR Linked List" }
+                ]
+              },
+              {
+                "id": "STACK_QUEUE",
+                "name": "Stacks & Queues",
+                "children": [
+                  { "id": "DS_STACK", "name": "Stack (LIFO)", "concepts": ["Monotonic Stack"] },
+                  { "id": "DS_QUEUE", "name": "Queue (FIFO)", "concepts": ["Circular Queue", "Monotonic Queue"] },
+                  { "id": "DS_DEQUE", "name": "Deque (Double Ended Queue)" },
+                  { "id": "DS_PRIO", "name": "Priority Queue (covered in Heaps)" }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "DS_HASHING",
+            "name": "Hashing Based Structures",
+            "children": [
+              { "id": "HASH_MAP", "name": "Hash Map / Dictionary" },
+              { "id": "HASH_SET", "name": "Hash Set" },
+              { "id": "HASH_BLOOM", "name": "Bloom Filter", "concepts": ["Probabilistic DS"] },
+              { "id": "HASH_LRU", "name": "LRU / LFU Cache Design" }
+            ]
+          },
+          {
+            "id": "DS_NON_LINEAR",
+            "name": "Non-Linear Data Structures",
+            "children": [
+              {
+                "id": "TREE_001",
+                "name": "Trees",
+                "children": [
+                  {
+                    "id": "TREE_BIN",
+                    "name": "Binary Trees",
+                    "children": [
+                      { "id": "TREE_BST", "name": "Binary Search Tree" },
+                      { 
+                        "id": "TREE_BALANCED", 
+                        "name": "Self-Balancing BST", 
+                        "children": [
+                          { "id": "TREE_AVL", "name": "AVL Tree" },
+                          { "id": "TREE_RB", "name": "Red-Black Tree" },
+                          { "id": "TREE_SPLAY", "name": "Splay Tree" },
+                          { "id": "TREE_TREAP", "name": "Treap (Tree + Heap)" }
+                        ] 
+                      },
+                      { 
+                        "id": "TREE_HEAP", 
+                        "name": "Heaps", 
+                        "children": [
+                          { "id": "HEAP_BIN", "name": "Binary Heap (Min/Max)" },
+                          { "id": "HEAP_FIB", "name": "Fibonacci Heap" },
+                          { "id": "HEAP_BINOM", "name": "Binomial Heap" }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "TREE_MULTI",
+                    "name": "Multi-way Trees",
+                    "children": [
+                      { "id": "TREE_TRIE", "name": "Trie (Prefix Tree)", "children": [{ "id": "TRIE_COMP", "name": "Compressed Trie / Radix Tree" }] },
+                      { "id": "TREE_B", "name": "B-Tree / B+ Tree", "concepts": ["Databases", "File Systems"] },
+                      { "id": "TREE_SEG", "name": "Segment Tree", "concepts": ["Lazy Propagation", "Range Queries"] },
+                      { "id": "TREE_BIT", "name": "Fenwick Tree (Binary Indexed Tree)" },
+                      { "id": "TREE_QUAD", "name": "QuadTree / Octree", "concepts": ["Spatial Indexing"] }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "GRAPH_001",
+                "name": "Graphs",
+                "children": [
+                  { "id": "GRAPH_REP", "name": "Representations", "concepts": ["Adjacency Matrix", "Adjacency List", "Edge List"] },
+                  { "id": "GRAPH_TYPES", "name": "Types", "concepts": ["DAG", "Bipartite Graph", "Eulerian/Hamiltonian Graph", "Planar Graph"] }
+                ]
+              },
+              {
+                "id": "DS_ADV",
+                "name": "Advanced / Specialized",
+                "children": [
+                    { "id": "DS_DSU", "name": "Disjoint Set Union (Union-Find)", "concepts": ["Path Compression", "Union by Rank"] },
+                    { "id": "DS_SKIP", "name": "Skip List" },
+                    { "id": "DS_SUFFIX", "name": "Suffix Tree / Suffix Array" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "ALG_001",
+        "name": "Algorithms",
+        "children": [
+          {
+            "id": "ALG_PATT",
+            "name": "Algorithmic Paradigms",
+            "children": [
+              { "id": "PATT_TP", "name": "Two Pointers / Fast-Slow Pointers" },
+              { "id": "PATT_SW", "name": "Sliding Window (Fixed/Dynamic)" },
+              { "id": "ALG_GREEDY", "name": "Greedy Method", "concepts": ["Huffman Coding", "Fractional Knapsack", "Interval Scheduling"] },
+              { "id": "ALG_DC", "name": "Divide and Conquer", "concepts": ["Master Theorem"] },
+              { "id": "ALG_BACK", "name": "Backtracking", "concepts": ["Pruning", "State Space Search"] }
+            ]
+          },
+          {
+            "id": "ALG_SORT_SEARCH",
+            "name": "Sorting & Searching",
+            "children": [
+              {
+                "id": "SORT_COMPARISON",
+                "name": "Comparison Sorts",
+                "children": [
+                    { "id": "SORT_QUICK", "name": "Quick Sort" },
+                    { "id": "SORT_MERGE", "name": "Merge Sort" },
+                    { "id": "SORT_HEAP", "name": "Heap Sort" },
+                    { "id": "SORT_STABLE", "name": "Insertion/Bubble/Selection Sort" }
+                ]
+              },
+              {
+                "id": "SORT_NON_COMP",
+                "name": "Non-Comparison Sorts",
+                "children": [
+                    { "id": "SORT_COUNT", "name": "Counting Sort" },
+                    { "id": "SORT_RADIX", "name": "Radix Sort" },
+                    { "id": "SORT_BUCKET", "name": "Bucket Sort" }
+                ]
+              },
+              {
+                "id": "ALG_SEARCH",
+                "name": "Searching",
+                "children": [
+                    { "id": "SEARCH_BIN", "name": "Binary Search", "concepts": ["Search on Answer Range"] },
+                    { "id": "SEARCH_TERN", "name": "Ternary Search" },
+                    { "id": "SEARCH_EXP", "name": "Exponential Search" }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "ALG_GRAPH",
+            "name": "Graph Algorithms",
+            "children": [
+              { "id": "GRAPH_TRAV", "name": "Traversal", "children": [{ "id": "G_BFS", "name": "BFS" }, { "id": "G_DFS", "name": "DFS" }] },
+              { 
+                "id": "GRAPH_SP", 
+                "name": "Shortest Path", 
+                "children": [
+                    { "id": "SP_DIJKSTRA", "name": "Dijkstra (Weighted Positive)" },
+                    { "id": "SP_BELLMAN", "name": "Bellman-Ford (Weighted Negative)" },
+                    { "id": "SP_FLOYD", "name": "Floyd-Warshall (All-Pairs)" },
+                    { "id": "SP_A_STAR", "name": "A* Search (Heuristics)" }
+                ]
+              },
+              {
+                "id": "GRAPH_MST",
+                "name": "Minimum Spanning Tree",
+                "children": [
+                    { "id": "MST_KRUSKAL", "name": "Kruskal's Algorithm" },
+                    { "id": "MST_PRIM", "name": "Prim's Algorithm" }
+                ]
+              },
+              {
+                "id": "GRAPH_ADV",
+                "name": "Advanced Graph Algs",
+                "children": [
+                    { "id": "G_TOPO", "name": "Topological Sort (Kahn's / DFS)" },
+                    { "id": "G_SCC", "name": "Strongly Connected Components", "concepts": ["Tarjan's", "Kosaraju's"] },
+                    { "id": "G_FLOW", "name": "Network Flow", "concepts": ["Ford-Fulkerson", "Edmonds-Karp", "Dinic's"] },
+                    { "id": "G_MATCH", "name": "Bipartite Matching", "concepts": ["Hopcroft-Karp"] },
+                    { "id": "G_BRIDGE", "name": "Bridges and Articulation Points" }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "ALG_DP",
+            "name": "Dynamic Programming",
+            "children": [
+              { "id": "DP_BASICS", "name": "DP Fundamentals", "concepts": ["Memoization (Top-down)", "Tabulation (Bottom-up)", "Optimal Substructure", "Overlapping Subproblems"] },
+              {
+                "id": "DP_PATTERNS",
+                "name": "DP Patterns",
+                "children": [
+                    { "id": "DP_KNAP", "name": "0/1 & Unbounded Knapsack" },
+                    { "id": "DP_LCS", "name": "LCS / Edit Distance / LIS" },
+                    { "id": "DP_INTERVAL", "name": "Interval DP (Matrix Chain Multiplication)" },
+                    { "id": "DP_BITMASK", "name": "Bitmask DP (TSP Problem)" },
+                    { "id": "DP_TREE", "name": "Tree DP (Diameter / Independent Set)" },
+                    { "id": "DP_DIGIT", "name": "Digit DP" },
+                    { "id": "DP_PROB", "name": "Probability/Expected Value DP" }
+                ]
+              },
+              { "id": "DP_OPT", "name": "DP Optimizations", "concepts": ["Convex Hull Trick", "Knuth Optimization", "Divide and Conquer Optimization"] }
+            ]
+          },
+          {
+            "id": "ALG_STR",
+            "name": "String Algorithms",
+            "children": [
+                { "id": "STR_MATCH", "name": "Pattern Matching", "children": [
+                    { "id": "STR_KMP", "name": "Knuth-Morris-Pratt (KMP)" },
+                    { "id": "STR_RK", "name": "Rabin-Karp (Rolling Hash)" },
+                    { "id": "STR_Z", "name": "Z-Algorithm" },
+                    { "id": "STR_AC", "name": "Aho-Corasick" }
+                ]},
+                { "id": "STR_PAL", "name": "Palindromes", "concepts": ["Manacher's Algorithm"] }
+            ]
+          },
+          {
+            "id": "ALG_MATH",
+            "name": "Mathematical Algorithms",
+            "children": [
+                { "id": "MATH_NT", "name": "Number Theory", "concepts": ["GCD (Euclidean)", "Sieve of Eratosthenes", "Modular Inverse", "Chinese Remainder Theorem", "Lucas Theorem"] },
+                { "id": "MATH_BIT", "name": "Bit Manipulation", "concepts": ["Hamming Weight", "Power Set", "XOR Properties"] },
+                { "id": "MATH_GEO", "name": "Computational Geometry", "concepts": ["Convex Hull (Graham Scan/Jarvis March)", "Line Intersection", "Sweep Line Algorithm"] },
+                { "id": "MATH_COMB", "name": "Combinatorics & Probability", "concepts": ["Permutations/Combinations", "Catalan Numbers", "Inclusion-Exclusion"] }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
