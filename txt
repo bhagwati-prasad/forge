@@ -1,0 +1,325 @@
+// Searching and Sorting Algorithm Variants
+
+const searchAndSortProblems = {
+    // --- BINARY SEARCH VARIANTS ---
+
+    'binary-search-classic': {
+        title: 'Binary Search (Standard)',
+        description: `
+            <h2>Problem Description</h2>
+            <p>Given an array of integers <code>nums</code> which is sorted in ascending order, and an integer <code>target</code>, write a function to search <code>target</code> in <code>nums</code>.</p>
+            <p>If target exists, then return its index. Otherwise, return -1.</p>
+            
+            <h3>Example:</h3>
+            <pre><code>Input: nums = [-1,0,3,5,9,12], target = 9
+Output: 4</code></pre>
+        `,
+        starterCode: `function binarySearch(nums, target) {
+    // Your code here
+    
+}
+
+console.log(binarySearch([-1,0,3,5,9,12], 9));`
+    },
+    'search-insert-position': {
+        title: 'Search Insert Position (Lower Bound)',
+        description: `
+            <h2>Problem Description</h2>
+            <p>Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.</p>
+            <p>This is effectively finding the "Lower Bound".</p>
+            
+            <h3>Example:</h3>
+            <pre><code>Input: nums = [1,3,5,6], target = 2
+Output: 1</code></pre>
+        `,
+        starterCode: `function searchInsert(nums, target) {
+    // Your code here
+    
+}
+
+console.log(searchInsert([1,3,5,6], 2));`
+    },
+        'upper-bound': {
+        title: 'Binary Search (Upper Bound)',
+        description: `
+            <h2>Problem Description</h2>
+            <p>Given a sorted array of integers <code>nums</code> and a <code>target</code> value, find the index of the first element that is <strong>strictly greater</strong> than the target.</p>
+            <p>If all elements are less than or equal to the target, return the length of the array.</p>
+            <p>This is commonly known as the "Upper Bound" in standard libraries (like C++ STL).</p>
+            
+            <h3>Example 1:</h3>
+            <pre><code>Input: nums = [1, 2, 4, 4, 5, 6], target = 4
+Output: 4
+Explanation: The element at index 4 is 5, which is the first value strictly greater than 4.</code></pre>
+
+            <h3>Example 2:</h3>
+            <pre><code>Input: nums = [1, 2, 4, 4, 5], target = 6
+Output: 5
+Explanation: No element is greater than 6, so return array length (5).</code></pre>
+            
+            <h3>Constraints:</h3>
+            <ul>
+                <li>nums is sorted in non-decreasing order.</li>
+                <li>O(log n) time complexity required.</li>
+            </ul>
+        `,
+        starterCode: `function upperBound(nums, target) {
+    // Your code here
+    
+}
+
+console.log(upperBound([1, 2, 4, 4, 5, 6], 4));`
+    },
+    'search-rotated-array': {
+        title: 'Search in Rotated Sorted Array',
+        description: `
+            <h2>Problem Description</h2>
+            <p>There is an integer array <code>nums</code> sorted in ascending order (with distinct values). It is rotated at an unknown pivot index.</p>
+            <p>Given the array and a target, return the index of target if it is in nums, or -1 if it is not.</p>
+            
+            <h3>Example:</h3>
+            <pre><code>Input: nums = [4,5,6,7,0,1,2], target = 0
+Output: 4</code></pre>
+        `,
+        starterCode: `function searchRotated(nums, target) {
+    // Your code here
+    
+}
+
+console.log(searchRotated([4,5,6,7,0,1,2], 0));`
+    },
+    'find-peak-element': {
+        title: 'Find Peak Element',
+        description: `
+            <h2>Problem Description</h2>
+            <p>A peak element is an element that is strictly greater than its neighbors. Given an integer array <code>nums</code>, find a peak element, and return its index.</p>
+            <p>You must write an algorithm that runs in O(log n) time.</p>
+            
+            <h3>Example:</h3>
+            <pre><code>Input: nums = [1,2,3,1]
+Output: 2
+Explanation: 3 is a peak element and your function should return the index number 2.</code></pre>
+        `,
+        starterCode: `function findPeakElement(nums) {
+    // Your code here
+    
+}
+
+console.log(findPeakElement([1,2,3,1]));`
+    },
+    'capacity-to-ship': {
+        title: 'Capacity To Ship Packages (Answer Space Search)',
+        description: `
+            <h2>Problem Description</h2>
+            <p>A conveyor belt has packages that must be shipped from one port to another within <code>days</code> days.</p>
+            <p>Find the least weight capacity of the ship that will result in all the packages on the conveyor belt being shipped within <code>days</code> days.</p>
+            <p>This requires Binary Search on the "Answer Space" (range of possible capacities).</p>
+            
+            <h3>Example:</h3>
+            <pre><code>Input: weights = [1,2,3,4,5,6,7,8,9,10], days = 5
+Output: 15</code></pre>
+        `,
+        starterCode: `function shipWithinDays(weights, days) {
+    // Your code here
+    
+}
+
+console.log(shipWithinDays([1,2,3,4,5,6,7,8,9,10], 5));`
+    },
+
+    // --- SORTING VARIANTS ---
+
+    'bubble-sort-swaps': {
+        title: 'Count Swaps (Bubble Sort Variant)',
+        description: `
+            <h2>Problem Description</h2>
+            <p>Implement Bubble Sort to sort an array. Additionally, return the total number of swaps that took place to sort the array.</p>
+            <p>This metric is sometimes used to measure how "disordered" an array is (though Inversion Count is more formal).</p>
+            
+            <h3>Example:</h3>
+            <pre><code>Input: [3, 2, 1]
+Output: 3
+Explanation:
+[2, 3, 1] (1 swap)
+[2, 1, 3] (1 swap)
+[1, 2, 3] (1 swap)</code></pre>
+        `,
+        starterCode: `function countSwaps(nums) {
+    // Your code here
+    
+}
+
+console.log(countSwaps([3, 2, 1]));`
+    },
+    'insertion-sort-list': {
+        title: 'Insertion Sort List',
+        description: `
+            <h2>Problem Description</h2>
+            <p>Given the head of a Singly Linked List, sort the list using insertion sort.</p>
+            <p>Insertion sort iterates, consuming one input element each repetition, and growing a sorted output list.</p>
+            
+            <h3>Example:</h3>
+            <pre><code>Input: head = [4,2,1,3]
+Output: [1,2,3,4]</code></pre>
+        `,
+        starterCode: `// Definition for singly-linked list node:
+// function ListNode(val, next) { this.val = (val===undefined ? 0 : val); this.next = (next===undefined ? null : next); }
+
+function insertionSortList(head) {
+    // Your code here
+    
+}`
+    },
+    'merge-sorted-array': {
+        title: 'Merge Sorted Array (Insertion/Merge Variant)',
+        description: `
+            <h2>Problem Description</h2>
+            <p>You are given two integer arrays <code>nums1</code> and <code>nums2</code>, sorted in non-decreasing order.</p>
+            <p>Merge <code>nums2</code> into <code>nums1</code> as one sorted array. <code>nums1</code> has a size equal to m + n, where the last n elements are set to 0 and should be ignored.</p>
+            
+            <h3>Example:</h3>
+            <pre><code>Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+Output: [1,2,2,3,5,6]</code></pre>
+        `,
+        starterCode: `function merge(nums1, m, nums2, n) {
+    // Your code here
+    
+}
+
+let n1 = [1,2,3,0,0,0];
+merge(n1, 3, [2,5,6], 3);
+console.log(n1);`
+    },
+    'kth-largest-element': {
+        title: 'Kth Largest Element (QuickSelect)',
+        description: `
+            <h2>Problem Description</h2>
+            <p>Given an integer array <code>nums</code> and an integer <code>k</code>, return the kth largest element in the array.</p>
+            <p>Note that it is the kth largest element in the sorted order, not the kth distinct element.</p>
+            <p>Can you solve it without fully sorting? (Hint: QuickSelect / Partitioning).</p>
+            
+            <h3>Example:</h3>
+            <pre><code>Input: nums = [3,2,1,5,6,4], k = 2
+Output: 5</code></pre>
+        `,
+        starterCode: `function findKthLargest(nums, k) {
+    // Your code here
+    
+}
+
+console.log(findKthLargest([3,2,1,5,6,4], 2));`
+    },
+    'sort-colors': {
+        title: 'Sort Colors (Dutch National Flag)',
+        description: `
+            <h2>Problem Description</h2>
+            <p>Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red (0), white (1), and blue (2).</p>
+            <p>This is the classic "Dutch National Flag" problem which uses a 3-way partition (Quick Sort concept).</p>
+            
+            <h3>Example:</h3>
+            <pre><code>Input: nums = [2,0,2,1,1,0]
+Output: [0,0,1,1,2,2]</code></pre>
+        `,
+        starterCode: `function sortColors(nums) {
+    // Your code here
+    
+}
+
+const arr = [2,0,2,1,1,0];
+sortColors(arr);
+console.log(arr);`
+    },
+    'count-inversions': {
+        title: 'Count Inversions (Merge Sort Variant)',
+        description: `
+            <h2>Problem Description</h2>
+            <p>In an array, if <code>i < j</code> and <code>arr[i] > arr[j]</code>, then the pair (i, j) is called an inversion.</p>
+            <p>Count the total number of inversions in the array. This is typically solved by modifying Merge Sort.</p>
+            
+            <h3>Example:</h3>
+            <pre><code>Input: arr = [8, 4, 2, 1]
+Output: 6
+Explanation: (8,4), (8,2), (8,1), (4,2), (4,1), (2,1)</code></pre>
+        `,
+        starterCode: `function countInversions(arr) {
+    // Your code here
+    
+}
+
+console.log(countInversions([8, 4, 2, 1]));`
+    },
+    'merge-intervals': {
+        title: 'Merge Intervals',
+        description: `
+            <h2>Problem Description</h2>
+            <p>Given an array of <code>intervals</code> where <code>intervals[i] = [start, end]</code>, merge all overlapping intervals.</p>
+            <p>This typically requires sorting by the start time first ($O(N log N)$).</p>
+            
+            <h3>Example:</h3>
+            <pre><code>Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+Output: [[1,6],[8,10],[15,18]]</code></pre>
+        `,
+        starterCode: `function mergeIntervals(intervals) {
+    // Your code here
+    
+}
+
+console.log(mergeIntervals([[1,3],[2,6],[8,10],[15,18]]));`
+    },
+    'valid-anagram': {
+        title: 'Valid Anagram (Sort Variant)',
+        description: `
+            <h2>Problem Description</h2>
+            <p>Given two strings s and t, return true if t is an anagram of s, and false otherwise.</p>
+            <p>One approach is to sort both strings and compare them.</p>
+            
+            <h3>Example:</h3>
+            <pre><code>Input: s = "anagram", t = "nagaram"
+Output: true</code></pre>
+        `,
+        starterCode: `function isAnagram(s, t) {
+    // Your code here
+    
+}
+
+console.log(isAnagram("anagram", "nagaram"));`
+    },
+    'contains-duplicate': {
+        title: 'Contains Duplicate',
+        description: `
+            <h2>Problem Description</h2>
+            <p>Given an integer array nums, return true if any value appears at least twice in the array.</p>
+            <p>Solving this by sorting the array first brings the time complexity to O(N log N) but reduces space complexity compared to a Hash Set.</p>
+            
+            <h3>Example:</h3>
+            <pre><code>Input: nums = [1,2,3,1]
+Output: true</code></pre>
+        `,
+        starterCode: `function containsDuplicate(nums) {
+    // Your code here
+    
+}
+
+console.log(containsDuplicate([1,2,3,1]));`
+    },
+    'wiggle-sort': {
+        title: 'Wiggle Sort',
+        description: `
+            <h2>Problem Description</h2>
+            <p>Given an integer array <code>nums</code>, reorder it such that <code>nums[0] <= nums[1] >= nums[2] <= nums[3]...</code>.</p>
+            <p>This can be solved by sorting first, or by a specialized one-pass swap approach.</p>
+            
+            <h3>Example:</h3>
+            <pre><code>Input: nums = [3,5,2,1,6,4]
+Output: [3,5,1,6,2,4] (One valid answer)</code></pre>
+        `,
+        starterCode: `function wiggleSort(nums) {
+    // Your code here
+    
+}
+
+const w = [3,5,2,1,6,4];
+wiggleSort(w);
+console.log(w);`
+    }
+};
